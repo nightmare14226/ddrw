@@ -26,8 +26,7 @@ export const metadata: Metadata = {
 export default function IndexPage() {
   return (
     <>
-      <h1>DDRW</h1>
-      {/* <DDRW /> */}
+      <DDRW />
       <LightPoints />
     </>
   );

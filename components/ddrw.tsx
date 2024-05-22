@@ -1,18 +1,28 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { Mesh } from "three";
+import { Color, Mesh, Points, PointsMaterial } from "three";
 
 function MeshComponent() {
   const fileUrl = "/pcd/ea.glb";
   const mesh = useRef<Mesh>(null!);
   const gltf = useLoader(GLTFLoader, fileUrl);
-
   useFrame(() => {
     mesh.current.rotation.y += 0.01;
+  });
+  useEffect(() => {
+    if (gltf && mesh.current) {
+      gltf.scene.traverse((child) => {
+        const pointsChild = child.children[0] as Points;
+        if (pointsChild) {
+          const pointsMaterial = pointsChild.material as PointsMaterial;
+          if (pointsMaterial) pointsMaterial.color.set(new Color("#ffffff"));
+        }
+      });
+    }
   });
   return (
     <mesh ref={mesh} position={[0, 0, 0]}>
@@ -23,11 +33,11 @@ function MeshComponent() {
 
 export function DDRW() {
   return (
-    <div className="flex justify-center items-center h-screen bg-transparent">
-      <Canvas className="h-[100px] w-[100px] z-10">
-        <OrbitControls />
+    <div className="block w-[450px] h-[450px] nx-auto">
+      <Canvas className="z-10 w-full h-full" camera={{ manual: true }}>
+        <PerspectiveCamera fov={50} position={[0, 0, 5]} manual makeDefault />
         <ambientLight />
-        <pointLight position={[10, 10, 110]} />
+        <pointLight position={[0, 0, 1]} />
         <MeshComponent />
       </Canvas>
     </div>

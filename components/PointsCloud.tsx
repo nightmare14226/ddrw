@@ -38,8 +38,8 @@ const PointsCloud: React.FC = () => {
       const material = ref.current.material as any; // cast to any to access custom material properties
       material.uniforms.uTime.value += delta;
       const da = 0.05;
-      const tiltX = lerp(ref.current.rotation.x, state.pointer.y * da, 0.02);
-      const tiltY = lerp(ref.current.rotation.y, -state.pointer.x * da, 0.02);
+      const tiltX = lerp(ref.current.rotation.x, 0.3 * da, 0.02);
+      const tiltY = lerp(ref.current.rotation.y, -0.3 * da, 0.02);
       ref.current.rotation.set(tiltX, tiltY, 0);
     }
   });
@@ -48,7 +48,7 @@ const PointsCloud: React.FC = () => {
     "https://assets.codepen.io/33787/sprite.png"
   );
   const palette = ["#a70267", "#f10c49", "#fb6b41", "#f6d86b", "#339194"];
-  const POINTS_COUNT = 30000;
+  const POINTS_COUNT = 12500;
   const positions = new Float32Array(POINTS_COUNT * 3);
   const colors = new Float32Array(POINTS_COUNT * 3);
   const sizes = new Float32Array(POINTS_COUNT);
@@ -62,7 +62,7 @@ const PointsCloud: React.FC = () => {
     sizes[i] = rnd(5, 20);
   }
 
-  const uniforms = { uTime: { value: 0 }, uTexture: { value: texture } };
+  const uniforms = { uTime: { value: 0.5 }, uTexture: { value: texture } };
   return (
     <points ref={ref}>
       <bufferGeometry>

@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
+import { SiteHeader } from "@/components/site-header";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: {
@@ -44,6 +45,7 @@ export default async function RootLayout({
             fontSans.variable
           )}
         >
+          <SiteHeader />
           {children}
         </body>
       </html>
