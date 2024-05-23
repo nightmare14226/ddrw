@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DDRW } from "@/components/ddrw";
 import LightPoints from "@/components/LightPoints";
+import Ribbons from "@/components/Ribbons";
 
 export const metadata: Metadata = {
   title: "DDRW",
@@ -26,8 +27,11 @@ export const metadata: Metadata = {
 export default function IndexPage() {
   return (
     <>
-      <DDRW />
-      <LightPoints />
+      {/* <DDRW /> */}
+      <div className="w-full min-h-screen absolute inset-0 blur-sm">
+        {/* <LightPoints /> */}
+        <Ribbons />
+      </div>
     </>
   );
 }
