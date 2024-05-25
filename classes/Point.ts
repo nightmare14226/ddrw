@@ -16,5 +16,13 @@ class Point {
         this.x = p.x;
         this.y = p.y;
     }
+    subtract(x: number, y: number) {
+        this.x -= x;
+        this.y -= y;
+    }
+    add(x: number, y: number) {
+        this.x += x;
+        this.y += y;
+    }
 }
 export default Point;

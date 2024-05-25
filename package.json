@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "@react-three/drei": "^9.105.6",
     "@react-three/fiber": "^8.16.6",
     "@react-three/postprocessing": "^2.16.2",
@@ -17,9 +18,12 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.4.0",
     "chroma-js": "^2.4.2",
+    "class-variance-authority": "^0.7.0",
     "cls": "^0.1.5",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.379.0",
     "next": "14.2.3",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",

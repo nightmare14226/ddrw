@@ -1,49 +1,82 @@
 "use client";
 
-import React, {
-  MutableRefObject,
-  useRef,
-  useEffect,
-  useState,
-} from "react";
-import { useLayoutEffect } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import React, { MutableRefObject, useRef, useEffect, useState } from "react";
+import { useFrame } from "@react-three/fiber";
 import Point from "@/classes/Point";
 //import { CanvasContext } from "./Ribbons";
+import { Line } from "three";
+import { Vector3 } from "three";
+import { ReactThreeFiber, extend } from "@react-three/fiber";
+import Triangle from "./Triangle";
+import { useMatrix } from "@/contexts/MatrixContext";
+import { RibbonType } from "@/contexts/MatrixContext";
+extend({ Line_: Line });
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      line_: ReactThreeFiber.Object3DNode<Line, typeof Line>;
+    }
+  }
+}
+
+const random = (args: number[]) => {
+  if (args.length === 1) {
+    // only 1 argument
+    if (Array.isArray(args[0])) {
+      // extract index from array
+      //@ts-ignore
+      var index = Math.round(random([0, args[0].length - 1]));
+      return args[0][index];
+    }
+    //@ts-ignore
+    return random([0, args[0]]); // assume numeric
+  } else if (args.length === 2) {
+    // two arguments range
+    return Math.random() * (args[1] - args[0]) + args[0];
+  }
+  return 0; // default
+};
 interface RibbonDrawProps {
   canvasRef: MutableRefObject<HTMLCanvasElement>;
 }
-function Line({ start, end }) {
-  const ref = useRef<();
-  useLayoutEffect(() => {
-    ref.current.geometry.setFromPoints(
-      [start, end].map((point) => new THREE.Vector3(...point))
-    );
-  }, [start, end]);
+
+type RibbonEdgeProps = {
+  start: number[];
+  end: number[];
+  keyn: number;
+};
+
+const RibbonEdge: React.FC<RibbonEdgeProps> = ({ start, end, keyn }) => {
+  const ref = useRef<Line>(null!);
+  useFrame(() => {
+    if (ref.current)
+      ref.current.geometry.setFromPoints(
+        [start, end].map((point) => new Vector3(...point))
+      );
+  });
   return (
-    <line ref={ref}>
+    <line_ ref={ref} key={keyn}>
       <bufferGeometry />
       <lineBasicMaterial color="hotpink" />
-    </line>
+    </line_>
   );
-}
+};
 const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   //const canvas2D = useContext(CanvasContext);
-  const [context2D, setContext2D] = useState<CanvasRenderingContext2D | null>(
-    null
-  );
-  const [ribbons, setRibbons] = useState<any[]>([]);
-  const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
+  const { ribbons, addOne, resetRibbons } = useMatrix();
+  const [width, setWidth] = useState(canvasRef.current.width);
+  const [height, setHeight] = useState(canvasRef.current.height);
+  const [vis, setVis] = useState<boolean>(true);
   let sto = null;
   let scroll = 0;
+  let _ribbons: RibbonType[][] = [];
   const options = {
     // ribbon color HSL saturation amount
     colorSaturation: "80%",
     // ribbon color HSL brightness amount
     colorBrightness: "60%",
     // ribbon color opacity amount
-    colorAlpha: 0.65,
+    colorAlpha: 0.3,
     // how fast to cycle through colors in the HSL color space
     colorCycleSpeed: 6,
     // where to start from on the Y axis on each side (top|min, middle|center, bottom|max, random)
@@ -62,36 +95,33 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   function addRibbon() {
     // movement data
     //@ts-ignore
-    var dir = Math.round(random(1, 9)) > 5 ? "right" : "left",
+    var dir = Math.round(random([1, 9])) > 5 ? "right" : "left",
       stop = 1000,
       hide = 200,
-      min = 0 - hide,
-      max = width + hide,
+      min = 0 - width / 2 - hide,
+      max = width / 2 + hide,
       movex = 0,
       movey = 0,
       startx = dir === "right" ? min : max,
       //@ts-ignore
-      starty = Math.round(random(0, height));
-
+      starty = Math.round(random([-height / 2, height / 2]));
     // asjust starty based on options
     if (/^(top|min)$/i.test(options.verticalPosition)) {
-      starty = 0 + hide;
+      starty = -height / 2 + hide;
     } else if (/^(middle|center)$/i.test(options.verticalPosition)) {
-      starty = height / 2;
+      starty = 0;
     } else if (/^(bottom|max)$/i.test(options.verticalPosition)) {
-      starty = height - hide;
+      starty = height / 2 - hide;
     }
-
     // ribbon sections data
     var ribbon = [],
       point1 = new Point(startx, starty),
       point2 = new Point(startx, starty),
       point3 = null,
       //@ts-ignore
-      color = Math.round(random(0, 360)),
+      color = Math.round(random([0, 360])),
       delay = 0;
-
-    // buils ribbon sections
+    // builds ribbon sections
     while (true) {
       if (stop <= 0) break;
       stop--;
@@ -101,7 +131,6 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       //@ts-ignore
       point3 = new Point();
       point3.copy(point2);
-
       if (dir === "right") {
         point3.add(movex, movey);
         if (point2.x >= max) break;
@@ -129,19 +158,19 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       delay += 4;
       color += options.colorCycleSpeed;
     }
-    ribbons.push(ribbon);
+    return ribbon;
   }
-  function drawRibbonSection(section) {
+  const drawRibbonSection = (section) => {
     if (section) {
       if (section.phase >= 1 && section.alpha <= 0) {
-        return true; // done
+        return [section, true]; // done
       }
+      var t = section.delay;
       if (section.delay <= 0) {
         section.phase += 0.02;
         section.alpha = Math.sin(section.phase) * 1;
         section.alpha = section.alpha <= 0 ? 0 : section.alpha;
         section.alpha = section.alpha >= 1 ? 1 : section.alpha;
-
         if (options.animateSections) {
           var mod = Math.sin(1 + (section.phase * Math.PI) / 2) * 0.1;
 
@@ -161,7 +190,6 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       } else {
         section.delay -= 0.5;
       }
-
       var s = options.colorSaturation,
         l = options.colorBrightness,
         c =
@@ -174,51 +202,41 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
           ", " +
           section.alpha +
           " )";
-
-      context2D.save();
-
-      if (options.parallaxAmount !== 0) {
-        context2D.translate(
-          0,
-          canvasRef.current.scrollHeight * options.parallaxAmount
-        );
-      }
-      context2D.beginPath();
-      context2D.moveTo(section.point1.x, section.point1.y);
-      context2D.lineTo(section.point2.x, section.point2.y);
-      context2D.lineTo(section.point3.x, section.point3.y);
-      context2D.fillStyle = c;
-      context2D.fill();
-
-      if (options.strokeSize > 0) {
-        context2D.lineWidth = options.strokeSize;
-        context2D.strokeStyle = c;
-        context2D.lineCap = "round";
-        context2D.stroke();
-      }
-      context2D.restore();
     }
-    return false; // not done yet
-  }
+    return [section, false]; // not done yet
+  };
   function onDraw() {
-    if (!context2D) return;
-    // cleanup on ribbons list to rtemoved finished ribbons
+    _ribbons = [];
     for (var i = 0, t = ribbons.length; i < t; ++i) {
-      if (!ribbons[i]) {
-        ribbons.splice(i, 1);
+      if (!ribbons[i]) continue;
+      const row: RibbonType[] = [];
+      for (var j = 0, q = ribbons[i].length; j < q; ++j) {
+        row.push({
+          point1: new Point(ribbons[i][j].point1.x, ribbons[i][j].point1.y),
+          point2: new Point(ribbons[i][j].point2.x, ribbons[i][j].point2.y),
+          point3: new Point(ribbons[i][j].point3.x, ribbons[i][j].point3.y),
+          color: ribbons[i][j].color,
+          delay: ribbons[i][j].delay,
+          dir: ribbons[i][j].dir,
+          alpha: ribbons[i][j].alpha,
+          phase: ribbons[i][j].phase,
+        });
+      }
+      _ribbons.push(row);
+    }
+    for (var i = 0, t = _ribbons.length; i < t; ++i) {
+      if (!_ribbons[i]) {
+        _ribbons.splice(i, 1);
       }
     }
-
-    // draw new ribbons
-    context2D.clearRect(0, 0, width, height);
-
     for (
       var a = 0;
-      a < ribbons.length;
+      a < _ribbons.length;
       ++a // single ribbon
     ) {
-      var ribbon = ribbons[a],
-        numSections = ribbon.length,
+      var ribbon = _ribbons[a];
+      if (!ribbon) continue;
+      var numSections = ribbon.length,
         numDone = 0;
 
       for (
@@ -226,24 +244,116 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
         b < numSections;
         ++b // ribbon section
       ) {
-        if (drawRibbonSection(ribbon[b])) {
+        var res;
+        res = drawRibbonSection(ribbon[b]);
+        ribbon[b] = res[0];
+        if (res[1]) {
           numDone++; // section done
+          // console.log("done", numDone, numSections);
         }
       }
       if (numDone >= numSections) {
         // ribbon done
-        ribbons[a] = null;
+        _ribbons[a] = null;
       }
     }
     // maintain optional number of ribbons on canvas
-    if (ribbons.length < options.ribbonCount) {
-      addRibbon();
+    if (_ribbons.length < options.ribbonCount) {
+      _ribbons.push(addRibbon());
     }
-    requestAnimationFrame(onDraw);
+    // console.log("_ribbons length", _ribbons.length);
+    resetRibbons(_ribbons);
+    //requestAnimationFrame(onDraw);
   }
-  useEffect(() => {}, [canvasRef.current]);
-  useFrame((state, delta) => {});
-  return <Line start={[0, 0, 0]} end={[1, 0, 0]} />;
+  useEffect(() => {}, []);
+  useFrame((state, delta) => {
+    onDraw();
+    if (vis) {
+      setVis(false);
+    }
+  });
+  return (
+    <>
+      {ribbons &&
+        ribbons[0] &&
+        ribbons[0].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
+        })}
+      {ribbons &&
+        ribbons[1] &&
+        ribbons[1].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
+        })}
+      {ribbons &&
+        ribbons[2] &&
+        ribbons[2].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
+        })}
+    </>
+  );
 };
 
 export default RibbonDraw;

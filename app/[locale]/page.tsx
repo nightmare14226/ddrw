@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DDRW } from "@/components/ddrw";
 import LightPoints from "@/components/LightPoints";
 import Ribbons from "@/components/Ribbons";
+import MatrixProvider from "@/contexts/MatrixContext";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "DDRW",
@@ -28,9 +30,11 @@ export default function IndexPage() {
   return (
     <>
       {/* <DDRW /> */}
-      <div className="w-full min-h-screen absolute inset-0 blur-sm">
+      <div className="w-full min-h-screen absolute inset-0">
         {/* <LightPoints /> */}
-        <Ribbons />
+        <MatrixProvider>
+          <Ribbons />
+        </MatrixProvider>
       </div>
     </>
   );
