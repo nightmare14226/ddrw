@@ -9,21 +9,17 @@ import { useEffect } from "react";
 const RibbonDraw = dynamic(() => import("./RibbonDraw.tsx"), { ssr: false });
 const Ribbons: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-  }, []);
   function onCreated({ gl, scene }) {
-    gl.setClearColor(new Color("transparent"));
-    scene.background = new Color("transparent");
+    gl.setClearColor(new Color("black"));
+    scene.background = new Color("black");
   }
   return (
     <Canvas
       ref={canvasRef}
       camera={{
-        fov: 50,
+        fov: 75,
         position: [0, 0, 1000],
-        zoom: 1,
+        zoom: 1.5,
       }}
       gl={{ alpha: true, antialias: true }}
       onCreated={onCreated}

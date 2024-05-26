@@ -33,7 +33,17 @@ export default function IndexPage() {
       <div className="w-full min-h-screen absolute inset-0">
         {/* <LightPoints /> */}
         <MatrixProvider>
-          <Ribbons />
+          <div className="hidden dark:visible w-full h-full">
+            <div className="absolute">
+              <DDRW />
+            </div>
+            <div className="backdrop-blur-[0.2rem] w-full h-full blur-sm">
+              <LightPoints />
+            </div>
+          </div>
+          <div className="visible dark:invisible h-full bg-black">
+            <Ribbons />
+          </div>
         </MatrixProvider>
       </div>
     </>

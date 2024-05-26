@@ -36,7 +36,7 @@ const PointsCloud: React.FC = () => {
   useFrame((state, delta) => {
     if (ref.current) {
       const material = ref.current.material as any; // cast to any to access custom material properties
-      material.uniforms.uTime.value += delta;
+      material.uniforms.uTime.value += delta * 5;
       const da = 0.05;
       const tiltX = lerp(ref.current.rotation.x, 0.3 * da, 0.02);
       const tiltY = lerp(ref.current.rotation.y, -0.3 * da, 0.02);
@@ -48,7 +48,7 @@ const PointsCloud: React.FC = () => {
     "https://assets.codepen.io/33787/sprite.png"
   );
   const palette = ["#a70267", "#f10c49", "#fb6b41", "#f6d86b", "#339194"];
-  const POINTS_COUNT = 12500;
+  const POINTS_COUNT = 50000;
   const positions = new Float32Array(POINTS_COUNT * 3);
   const colors = new Float32Array(POINTS_COUNT * 3);
   const sizes = new Float32Array(POINTS_COUNT);

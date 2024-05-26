@@ -24,8 +24,8 @@ const Triangle = ({ vertices, col, alpha }) => {
         opacity: alpha,
         side: THREE.DoubleSide,
         wireframe: false,
-        depthWrite: false,
-        depthTest: false,
+        depthWrite: true,
+        depthTest: true,
         transparent: true,
       });
     }
@@ -38,7 +38,7 @@ const Triangle = ({ vertices, col, alpha }) => {
       <meshBasicMaterial
         isMaterial={true}
         color={col}
-        opacity={40}
+        opacity={100}
         transparent={true}
         wireframe={false}
         depthTest={false}

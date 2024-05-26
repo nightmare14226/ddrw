@@ -36,7 +36,21 @@ export const MatrixProvider: React.FC<Props> = ({ children }) => {
   const resetRibbons = (newOne: Matrix) => {
     const temp: RibbonType[][] = [];
     for (var i = 0; i < newOne.length; i++) {
-      if (newOne[i]) temp.push([...newOne[i]]);
+      if (newOne[i]) {
+        temp.push([]);
+        for (var j = 0; j < newOne[i].length; j++)
+          temp[i].push({
+            // single ribbon section
+            point1: new Point(newOne[i][j].point1.x, newOne[i][j].point1.y),
+            point2: new Point(newOne[i][j].point2.x, newOne[i][j].point2.y),
+            point3: new Point(newOne[i][j].point3.x, newOne[i][j].point3.y),
+            color: newOne[i][j].color,
+            delay: newOne[i][j].delay,
+            dir: newOne[i][j].dir,
+            alpha: newOne[i][j].alpha,
+            phase: newOne[i][j].phase,
+          });
+      } else temp.push(null);
     }
     setRibbons(temp);
   };
