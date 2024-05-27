@@ -10,8 +10,8 @@ const RibbonDraw = dynamic(() => import("./RibbonDraw.tsx"), { ssr: false });
 const Ribbons: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   function onCreated({ gl, scene }) {
-    gl.setClearColor(new Color("black"));
-    scene.background = new Color("black");
+    gl.setClearColor(new Color("transparent"));
+    scene.background = new Color("transparent");
   }
   return (
     <Canvas

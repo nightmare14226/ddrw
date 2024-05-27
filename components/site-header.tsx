@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
+import RocketToggle from "./rocket-toggle";
 
 export function SiteHeader() {
   return (
@@ -20,6 +21,9 @@ export function SiteHeader() {
                   width={96}
                   alt="logo_ddrw"
                 />
+                <div className="pl-1 pt-0 hidden dark:block">
+                  <RocketToggle />
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 inset-y-0 right-0 items-center sm:static sm:inset-auto">

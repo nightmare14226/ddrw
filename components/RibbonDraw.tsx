@@ -41,18 +41,15 @@ interface RibbonDrawProps {
 }
 
 type RibbonEdgeProps = {
-  start: number[];
-  end: number[];
+  start: Vector3;
+  end: Vector3;
   keyn: number;
 };
 
 const RibbonEdge: React.FC<RibbonEdgeProps> = ({ start, end, keyn }) => {
   const ref = useRef<Line>(null!);
   useFrame(() => {
-    if (ref.current)
-      ref.current.geometry.setFromPoints(
-        [start, end].map((point) => new Vector3(...point))
-      );
+    if (ref.current) ref.current.geometry.setFromPoints([start, end]);
   });
   return (
     <line_ ref={ref} key={keyn}>
@@ -67,6 +64,7 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   const [width, setWidth] = useState(canvasRef.current.width);
   const [height, setHeight] = useState(canvasRef.current.height);
   const [vis, setVis] = useState<boolean>(true);
+  const [idx, setIdx] = useState(0);
   let sto = null;
   let scroll = 0;
   const options = {
@@ -149,6 +147,7 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
         dir: dir,
         alpha: 0,
         phase: 0,
+        id: idx,
       });
 
       point1.copy(point2);
@@ -157,7 +156,8 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       delay += 4;
       color += options.colorCycleSpeed;
     }
-    return ribbon;
+    setIdx(idx + 1);
+    ribbons.push(ribbon);
   }
   const drawRibbonSection = (section) => {
     if (section) {
@@ -204,7 +204,6 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       ++a // single ribbon
     ) {
       var ribbon = ribbons[a];
-      if (!ribbon) continue;
       var numSections = ribbon.length,
         numDone = 0;
 
@@ -228,7 +227,7 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     }
     // maintain optional number of ribbons on canvas
     if (ribbons.length < options.ribbonCount) {
-      ribbons.push(addRibbon());
+      addRibbon();
     }
     // console.log("ribbons length", ribbons.length);
     resetRibbons(ribbons);
@@ -243,33 +242,83 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   });
   return (
     <>
-      {ribbons &&
-        ribbons.map((k, idx) => {
-          if (k)
-            return k.map((k, index) => {
-              const vertices = [
-                new Vector3(k.point1.x, k.point1.y, 0),
-                new Vector3(k.point2.x, k.point2.y, 0),
-                new Vector3(k.point3.x, k.point3.y, 0),
-              ];
-              return (
-                <>
-                  <Triangle
-                    vertices={vertices}
-                    col={
-                      "hsl(" +
-                      k.color +
-                      ", " +
-                      options.colorSaturation +
-                      ", " +
-                      options.colorBrightness +
-                      ")"
-                    }
-                    alpha={k.alpha}
-                  />
-                </>
-              );
-            });
+      {ribbons[0] &&
+        ribbons[0].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                key={k.id}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
+        })}
+      {ribbons[1] &&
+        ribbons[1].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                key={k.id}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
+        })}
+      {ribbons[2] &&
+        ribbons[2].map((k, index) => {
+          const vertices = [
+            new Vector3(k.point1.x, k.point1.y, 0),
+            new Vector3(k.point2.x, k.point2.y, 0),
+            new Vector3(k.point3.x, k.point3.y, 0),
+          ];
+          return (
+            <>
+              <Triangle
+                vertices={vertices}
+                key={k.id}
+                col={
+                  "hsl(" +
+                  k.color +
+                  ", " +
+                  options.colorSaturation +
+                  ", " +
+                  options.colorBrightness +
+                  ")"
+                }
+                alpha={k.alpha}
+              />
+            </>
+          );
         })}
     </>
   );

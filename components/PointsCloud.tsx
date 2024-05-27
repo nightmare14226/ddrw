@@ -6,6 +6,7 @@ import { Vector3 } from "three";
 import { Color } from "three";
 import { MathUtils } from "three";
 import { lerp } from "three/src/math/MathUtils.js";
+import { useStatus } from "@/contexts/StatusContext";
 const { randFloat: rnd, randInt, randFloatSpread: rndFS } = MathUtils;
 const vertexShader = `
   uniform float uTime;
@@ -33,8 +34,12 @@ const fragmentShader = `
 
 const PointsCloud: React.FC = () => {
   const ref = useRef<THREE.Points>();
+  const { timeCoef, setTimeCoef, setTargetTimeCoef, targetTimeCoef } =
+    useStatus();
   useFrame((state, delta) => {
     if (ref.current) {
+      setTimeCoef(lerp(timeCoef, targetTimeCoef, 0.02));
+      uniforms.uTime.value += delta * timeCoef * 4;
       const material = ref.current.material as any; // cast to any to access custom material properties
       material.uniforms.uTime.value += delta * 5;
       const da = 0.05;

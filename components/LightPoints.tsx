@@ -66,13 +66,14 @@ const LightPoints: React.FC = () => {
       onCreated={onCreated}
       onResize={onResize}
     >
-      <pointLight color="light1Color" position={[-2, -2, 2]} intensity={0.5} />
-      <pointLight color="light2Color" position={[-2, 2, 2]} intensity={0.5} />
-      <pointLight color="light3Color" position={[2, 2, 2]} intensity={0.5} />
-      <pointLight color="light4Color" position={[2, -2, 2]} intensity={0.5} />
+      <pointLight color="#b307b5" position={[-2, -2, 2]} intensity={0.5} />
+      <pointLight color="#8132aa" position={[-2, 2, 2]} intensity={0.5} />
+      <pointLight color="#5737d0" position={[2, 2, 2]} intensity={0.5} />
+      <pointLight color="#0d25bb" position={[2, -2, 2]} intensity={0.5} />
+      <pointLight color="#ffffff" position={[0, 0, 5]} intensity={4} />
       <PointsCloud />
       <EffectComposer ref={composerRef}>
-        <Bloom luminanceThreshold={0.9} luminanceSmoothing={0.9} height={300} />
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.2} height={300} />
         <renderPass />
       </EffectComposer>
       <Effects

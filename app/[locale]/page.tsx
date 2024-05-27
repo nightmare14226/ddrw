@@ -33,7 +33,7 @@ export default function IndexPage() {
       <div className="w-full min-h-screen absolute inset-0">
         {/* <LightPoints /> */}
         <MatrixProvider>
-          <div className="hidden dark:visible w-full h-full">
+          <div className="hidden dark:block w-full h-full z-10">
             <div className="absolute">
               <DDRW />
             </div>
@@ -41,7 +41,7 @@ export default function IndexPage() {
               <LightPoints />
             </div>
           </div>
-          <div className="visible dark:invisible h-full bg-black">
+          <div className="absolute dark:hidden inset-0 h-full bg-transparent z-0">
             <Ribbons />
           </div>
         </MatrixProvider>
