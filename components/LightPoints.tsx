@@ -1,32 +1,25 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import { NextPage } from "next";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Effects, OrbitControls } from "@react-three/drei";
+import { Canvas, useThree } from "@react-three/fiber";
+import { Effects } from "@react-three/drei";
 import dynamic from "next/dynamic";
-import { Renderer, Scene, Vector2 } from "three";
-import { Color } from "three";
-import {
-  Bloom,
-  EffectComposer,
-  EffectComposerContext,
-  SSAO,
-} from "@react-three/postprocessing";
+import { Color, Vector2 } from "three";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { ReactThreeFiber, extend } from "@react-three/fiber";
 import { useState } from "react";
 import { RenderPass, UnrealBloomPass } from "three/examples/jsm/Addons.js";
 import { SSAOPass } from "three/examples/jsm/Addons.js";
-import { BlendFunction } from "postprocessing";
-extend({ SSAOPass, RenderPass, UnrealBloomPass });
+import { MotionBlurPass } from "@/components/blur/MotionBlurPass.js";
+import { extend } from "@react-three/fiber";
+import CustomUnrealBloom from "./CustomUnrealBloom.tsx";
+import CustomMotionBlur from "./CustomMotionBlur.tsx";
+extend({ SSAOPass, RenderPass, UnrealBloomPass, MotionBlurPass });
 declare global {
   namespace JSX {
-    interface IntrinsicElements {
-      sSAOPass: SSAOPass;
-      unrealBloomPass: UnrealBloomPass;
-    }
+    interface IntrinsicElements {}
   }
 }
 const PointsCloud = dynamic(() => import("./PointsCloud.tsx"), { ssr: false });
@@ -37,17 +30,34 @@ const LightPoints: React.FC = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    console.log(composerRef.current);
   }, []);
   function onCreated({ gl, scene, camera }) {
     gl.setClearColor(new Color("black"));
     scene.background = new Color("black");
-    const renderPass = new RenderPass(scene, camera);
     if (composerRef) {
+      const renderPass = new RenderPass(scene, camera);
+      const motionPass = new MotionBlurPass(scene, camera);
+      motionPass.enabled = true;
+      motionPass.samples = 7;
+      motionPass.expandGeometry = 0;
+      motionPass.interpolateGeometry = 1;
+      motionPass.renderCameraBlur = false;
+      motionPass.renderTargetScale = 1;
+      motionPass.smearIntensity = 3;
+      motionPass.jitter = 1;
+      motionPass.jitterStrategy = 2;
+      const bloomPass = new UnrealBloomPass(
+        new Vector2(canvasRef.current.width, canvasRef.current.height),
+        2,
+        0,
+        0
+      );
       console.log(composerRef.current);
-      console.log(composerRef.current.getRenderer());
+      // composerRef.current.passes.push(bloomPass);
+      // composerRef.current.passes.push(motionPass);
     }
   }
-  function onResize() {}
   return (
     <Canvas
       ref={canvasRef}
@@ -55,34 +65,33 @@ const LightPoints: React.FC = () => {
         aspect: canvasRef.current
           ? canvasRef.current.clientWidth / canvasRef.current.clientHeight
           : 1,
-        fov: 100,
+        fov: 50,
         near: 1,
-        far: 100,
-        up: [0, 0, 10],
+        far: 1000,
         position: [0, 0, 0],
-        zoom: 0.7,
+        zoom: 1,
       }}
-      gl={{ alpha: false }}
+      gl={{ alpha: true, antialias: true }}
       onCreated={onCreated}
-      onResize={onResize}
     >
+      <ambientLight color={0xcccccc} />
       <pointLight color="#b307b5" position={[-2, -2, 2]} intensity={0.5} />
       <pointLight color="#8132aa" position={[-2, 2, 2]} intensity={0.5} />
       <pointLight color="#5737d0" position={[2, 2, 2]} intensity={0.5} />
       <pointLight color="#0d25bb" position={[2, -2, 2]} intensity={0.5} />
-      <pointLight color="#ffffff" position={[0, 0, 5]} intensity={4} />
+      <pointLight color="#ffffff" position={[0, 0, 5]} intensity={1} />
       <PointsCloud />
-      <EffectComposer ref={composerRef}>
-        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.2} height={300} />
-        <renderPass />
-      </EffectComposer>
-      <Effects
+      <CustomUnrealBloom />
+      {/* <EffectComposer ref={composerRef}>
+        <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.8} height={300} />
+      </EffectComposer> */}
+      {/* <Effects
         multisamping={8}
         renderIndex={1}
-        disableGamma={false}
-        disableRenderPass={false}
-        disableRender={false}
-      ></Effects>
+        disableGamma={true}
+        disableRenderPass={true}
+        disableRender={true}
+      /> */}
     </Canvas>
   );
 };

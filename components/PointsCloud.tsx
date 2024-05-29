@@ -1,12 +1,14 @@
-import React, { useMemo, useRef } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+"use client";
+
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { url } from "inspector";
 import { Vector3 } from "three";
 import { Color } from "three";
 import { MathUtils } from "three";
-import { lerp } from "three/src/math/MathUtils.js";
-import { useStatus } from "@/contexts/StatusContext";
+import { useModeStore } from "./StateProvider";
+import useStore from "./StateProvider";
 const { randFloat: rnd, randInt, randFloatSpread: rndFS } = MathUtils;
 const vertexShader = `
   uniform float uTime;
@@ -31,21 +33,20 @@ const fragmentShader = `
     gl_FragColor = vColor * texture2D(uTexture, gl_PointCoord);
   }
 `;
-
-const PointsCloud: React.FC = () => {
+const PointsCloud = () => {
   const ref = useRef<THREE.Points>();
-  const { timeCoef, setTimeCoef, setTargetTimeCoef, targetTimeCoef } =
-    useStatus();
+  const materialRef = useRef<THREE.ShaderMaterial>();
+  const { scene, gl } = useThree();
+  const hyperMode = useModeStore.use.hyperMode();
+  const moveOneStep = useModeStore.use.moveOneStep();
+  const change = useModeStore.use.changeHyperMode();
+  const timeCoef = useModeStore.use.timeCoef();
+  const targetTimeCoef = useModeStore.use.targetTimeCoef();
   useFrame((state, delta) => {
     if (ref.current) {
-      setTimeCoef(lerp(timeCoef, targetTimeCoef, 0.02));
-      uniforms.uTime.value += delta * timeCoef * 4;
-      const material = ref.current.material as any; // cast to any to access custom material properties
-      material.uniforms.uTime.value += delta * 5;
-      const da = 0.05;
-      const tiltX = lerp(ref.current.rotation.x, 0.3 * da, 0.02);
-      const tiltY = lerp(ref.current.rotation.y, -0.3 * da, 0.02);
-      ref.current.rotation.set(tiltX, tiltY, 0);
+      materialRef.current.uniforms.uTime.value += delta * 5 * timeCoef;
+
+      moveOneStep();
     }
   });
   const texture = useLoader(
@@ -66,8 +67,13 @@ const PointsCloud: React.FC = () => {
     color.toArray(colors, i * 3);
     sizes[i] = rnd(5, 20);
   }
-
-  const uniforms = { uTime: { value: 0.5 }, uTexture: { value: texture } };
+  /*useEffect(() => {
+    
+  });*/
+  const uniforms = useMemo(
+    () => ({ uTime: { value: 0.5 }, uTexture: { value: texture } }),
+    []
+  );
   return (
     <points ref={ref}>
       <bufferGeometry>
@@ -91,6 +97,7 @@ const PointsCloud: React.FC = () => {
         />
       </bufferGeometry>
       <shaderMaterial
+        ref={materialRef}
         blending={2}
         depthTest={false}
         vertexShader={vertexShader}

@@ -4,9 +4,7 @@ import {
   SunMedium,
   Twitter,
   type Icon as LucideIcon,
-} from "lucide-react"
-
-export type Icon = LucideIcon
+} from "lucide-react";
 
 export const Icons = {
   sun: SunMedium,
@@ -28,4 +26,4 @@ export const Icons = {
       ></path>
     </svg>
   ),
-}
+};

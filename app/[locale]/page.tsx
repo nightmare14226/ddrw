@@ -34,10 +34,10 @@ export default function IndexPage() {
         {/* <LightPoints /> */}
         <MatrixProvider>
           <div className="hidden dark:block w-full h-full z-10">
-            <div className="absolute">
+            <div className="absolute mt-20">
               <DDRW />
             </div>
-            <div className="backdrop-blur-[0.2rem] w-full h-full blur-sm">
+            <div className="backdrop-blur-[0.2rem] w-full h-full">
               <LightPoints />
             </div>
           </div>

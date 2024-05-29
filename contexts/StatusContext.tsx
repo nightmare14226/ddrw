@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { lerp } from "three/src/math/MathUtils.js";
 
 interface StatusContextType {
   timeCoef: number;
@@ -23,7 +24,6 @@ export const StatusProvider: React.FC<Props> = ({ children }) => {
   const [timeCoef, setTimeCoef] = useState(1);
   const [targetTimeCoef, setTargetTimeCoef] = useState(1);
   const [hyperMode, setHyperMode] = useState(false);
-
   return (
     <StatusContext.Provider
       value={{

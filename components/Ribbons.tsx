@@ -1,11 +1,10 @@
 "use client";
 
-import React, { createContext } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React from "react";
+import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
 import { Color } from "three";
 import { useRef } from "react";
-import { useEffect } from "react";
 const RibbonDraw = dynamic(() => import("./RibbonDraw.tsx"), { ssr: false });
 const Ribbons: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
