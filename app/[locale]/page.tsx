@@ -37,7 +37,7 @@ export default function IndexPage() {
             <div className="absolute mt-20">
               <DDRW />
             </div>
-            <div className="backdrop-blur-[0.2rem] w-full h-full">
+            <div className="backdrop-blur-[0.2rem] w-full h-full blur-sm">
               <LightPoints />
             </div>
           </div>
