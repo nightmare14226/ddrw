@@ -3,7 +3,6 @@ import { DDRW } from "@/components/ddrw";
 import LightPoints from "@/components/LightPoints";
 import Ribbons from "@/components/Ribbons";
 import MatrixProvider from "@/contexts/MatrixContext";
-import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "DDRW",
@@ -32,19 +31,19 @@ export default function IndexPage() {
       {/* <DDRW /> */}
       <div className="w-full min-h-screen absolute inset-0">
         {/* <LightPoints /> */}
-        <MatrixProvider>
-          <div className="hidden dark:block w-full h-full z-10">
-            <div className="absolute mt-20">
-              <DDRW />
-            </div>
-            <div className="backdrop-blur-[0.2rem] w-full h-full blur-sm">
-              <LightPoints />
-            </div>
+        <div className="hidden dark:block w-full h-full z-10">
+          <div className="absolute mt-20">
+            <DDRW />
           </div>
-          <div className="absolute dark:hidden inset-0 h-full bg-transparent z-0">
+          <div className="backdrop-blur-[0.2rem] w-full h-full">
+            <LightPoints />
+          </div>
+        </div>
+        <div className=" inset-0 h-full bg-transparent z-0">
+          <MatrixProvider>
             <Ribbons />
-          </div>
-        </MatrixProvider>
+          </MatrixProvider>
+        </div>
       </div>
     </>
   );

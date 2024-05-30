@@ -36,16 +36,11 @@ const fragmentShader = `
 const PointsCloud = () => {
   const ref = useRef<THREE.Points>();
   const materialRef = useRef<THREE.ShaderMaterial>();
-  const { scene, gl } = useThree();
-  const hyperMode = useModeStore.use.hyperMode();
   const moveOneStep = useModeStore.use.moveOneStep();
-  const change = useModeStore.use.changeHyperMode();
   const timeCoef = useModeStore.use.timeCoef();
-  const targetTimeCoef = useModeStore.use.targetTimeCoef();
   useFrame((state, delta) => {
     if (ref.current) {
       materialRef.current.uniforms.uTime.value += delta * 5 * timeCoef;
-
       moveOneStep();
     }
   });
@@ -53,7 +48,32 @@ const PointsCloud = () => {
     THREE.TextureLoader,
     "https://assets.codepen.io/33787/sprite.png"
   );
-  const palette = ["#a70267", "#f10c49", "#fb6b41", "#f6d86b", "#339194"];
+  const palette = [
+    "#a70267",
+    "#f10c49",
+    "#fb6b41",
+    "#f6d86b",
+    "#339194",
+    "#fe4365",
+    "#fc9d9a",
+    "#f9cdad",
+    "#c8c8a9",
+    "#83af9b",
+    "#490a3d",
+    "#bd1550",
+    "#e97f02",
+    "#f8ca00",
+    "#8a9b0f",
+    "#3fb8af",
+    "#7fc7af",
+    "#dad8a7",
+    "#ff9e9d",
+    "#ff3d7f",
+    "#6b0103",
+    "#a30006",
+    "#c21a01",
+    "#f03c02",
+  ];
   const POINTS_COUNT = 50000;
   const positions = new Float32Array(POINTS_COUNT * 3);
   const colors = new Float32Array(POINTS_COUNT * 3);

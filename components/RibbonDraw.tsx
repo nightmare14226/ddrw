@@ -9,7 +9,6 @@ import { Vector3 } from "three";
 import { ReactThreeFiber, extend } from "@react-three/fiber";
 import Triangle from "./Triangle";
 import { useMatrix } from "@/contexts/MatrixContext";
-import { RibbonType } from "@/contexts/MatrixContext";
 extend({ Line_: Line });
 declare global {
   namespace JSX {
@@ -93,8 +92,8 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     // movement data
     //@ts-ignore
     var dir = Math.round(random([1, 9])) > 5 ? "right" : "left",
-      stop = 1000,
-      hide = 200,
+      stop = 100,
+      hide = 20,
       min = 0 - width / 2 - hide,
       max = width / 2 + hide,
       movex = 0,
@@ -231,10 +230,10 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     }
     // console.log("ribbons length", ribbons.length);
     resetRibbons(ribbons);
-    //requestAnimationFrame(onDraw);
   }
   useEffect(() => {}, []);
   useFrame((state, delta) => {
+    console.log(1);
     onDraw();
     if (vis) {
       setVis(false);

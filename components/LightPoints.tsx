@@ -10,13 +10,7 @@ import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { RenderPass, UnrealBloomPass } from "three/examples/jsm/Addons.js";
-import { SSAOPass } from "three/examples/jsm/Addons.js";
-import { MotionBlurPass } from "@/components/blur/MotionBlurPass.js";
-import { extend } from "@react-three/fiber";
 import CustomUnrealBloom from "./CustomUnrealBloom.tsx";
-import CustomMotionBlur from "./CustomMotionBlur.tsx";
-extend({ SSAOPass, RenderPass, UnrealBloomPass, MotionBlurPass });
 declare global {
   namespace JSX {
     interface IntrinsicElements {}
@@ -30,32 +24,12 @@ const LightPoints: React.FC = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    console.log(composerRef.current);
+    //console.log(composerRef.current);
   }, []);
   function onCreated({ gl, scene, camera }) {
     gl.setClearColor(new Color("black"));
     scene.background = new Color("black");
     if (composerRef) {
-      const renderPass = new RenderPass(scene, camera);
-      const motionPass = new MotionBlurPass(scene, camera);
-      motionPass.enabled = true;
-      motionPass.samples = 7;
-      motionPass.expandGeometry = 0;
-      motionPass.interpolateGeometry = 1;
-      motionPass.renderCameraBlur = false;
-      motionPass.renderTargetScale = 1;
-      motionPass.smearIntensity = 3;
-      motionPass.jitter = 1;
-      motionPass.jitterStrategy = 2;
-      const bloomPass = new UnrealBloomPass(
-        new Vector2(canvasRef.current.width, canvasRef.current.height),
-        2,
-        0,
-        0
-      );
-      console.log(composerRef.current);
-      // composerRef.current.passes.push(bloomPass);
-      // composerRef.current.passes.push(motionPass);
     }
   }
   return (

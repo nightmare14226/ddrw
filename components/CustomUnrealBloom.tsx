@@ -54,7 +54,10 @@ const CustomUnrealBloom = ({
       blurTransparent: false,
       renderCameraBlur: true,
     });
-    const zoomBlurPass = new ShaderPass(ZoomBlur);
+    const zoomBlurPass = new ShaderPass({
+      ...ZoomBlur,
+      uniforms: zoomUniforms,
+    });
     //zoomBlurPass.uniforms.strength = { value: 0.5 };
     composer.current = new EffectComposer(gl);
     composer.current.addPass(renderPass);
@@ -68,7 +71,7 @@ const CustomUnrealBloom = ({
 
   useFrame(() => {
     if (composer.current.passes.at(3)) {
-      console.log((composer.current.passes.at(3) as ShaderPass).uniforms);
+      //console.log((composer.current.passes.at(3) as ShaderPass).uniforms);
       if ((composer.current.passes.at(3) as ShaderPass).uniforms)
         (composer.current.passes.at(3) as ShaderPass).uniforms.strength = {
           value: timeCoef * 0.004,
