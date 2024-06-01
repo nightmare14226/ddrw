@@ -4,7 +4,7 @@ import RocketToggle from "./rocket-toggle";
 
 export function SiteHeader() {
   return (
-    <header className="header relative z-10 w-full mx-auto pt-0 flex justify-center items-center">
+    <header className="header relative z-10 w-full mx-auto pt-0 flex justify-center items-center h-15">
       <nav className="mx-auto header drop-shadow-md px-0 max-w-7xl mt-0 hidden md:block lg:mt-0 w-full">
         <div className="container mx-auto">
           <div className="pt-10 relative flex items-center justify-between h-16">

@@ -47,6 +47,7 @@ const LightPoints: React.FC = () => {
       }}
       gl={{ alpha: true, antialias: true }}
       onCreated={onCreated}
+      id="pointscanvas"
     >
       <ambientLight color={0xcccccc} />
       <pointLight color="#b307b5" position={[-2, -2, 2]} intensity={0.5} />

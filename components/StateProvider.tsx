@@ -1,10 +1,30 @@
 "use client";
 import { StoreApi, UseBoundStore } from "zustand";
 import { create } from "zustand";
+import Point from "@/classes/Point";
+import { produce } from "immer";
+export type RibbonType = {
+  point1: Point;
+  point2: Point;
+  point3: Point;
+  color: number;
+  delay: number;
+  dir: string;
+  alpha: number;
+  phase: number;
+  id: number;
+};
+type Matrix = RibbonType[][];
+
 interface ModeStore {
   timeCoef: number;
   targetTimeCoef: number;
   hyperMode: boolean;
+  ribbons: any[][];
+  addRibbon: (rb: any[]) => void;
+  deleteRibbon: (id: number) => void;
+  setRibbons: (rbs: Matrix) => void;
+  setSection: (row: number, col: number, sec: RibbonType) => void;
   setHyperMode: (hm: boolean) => void;
   changeHyperMode: () => void;
   setTimeCoef: (tc: number) => void;
@@ -15,10 +35,36 @@ const useStore = create<ModeStore>()((set) => ({
   timeCoef: 1,
   targetTimeCoef: 1,
   hyperMode: false,
+  ribbons: [],
   setHyperMode: (hm) =>
     set({
       hyperMode: hm,
     }),
+  deleteRibbon: (id: number) =>
+    set((state) => {
+      const temp = [...state.ribbons];
+      temp.splice(id, 1);
+      return {
+        ribbons: temp,
+      };
+    }),
+  setSection: (row, col, sec) =>
+    set((state) => {
+      const newRibbons = state.ribbons.map((r, i) =>
+        i === row ? r.map((val, j) => (j === col ? sec : val)) : r
+      );
+      return { ribbons: newRibbons };
+    }),
+  addRibbon: (rb: RibbonType[]) =>
+    set((state) => ({
+      ribbons: [...state.ribbons, [...rb]],
+    })),
+  setRibbons: (rbs: Matrix) =>
+    set(
+      produce(() => ({
+        ribbons: [...rbs],
+      }))
+    ),
   changeHyperMode: () =>
     set((state) =>
       state.hyperMode == true
@@ -33,7 +79,7 @@ const useStore = create<ModeStore>()((set) => ({
     ),
   setTimeCoef: (tc) => set({ timeCoef: tc }),
   setTargetTimeCoef: (ttc) => set({ targetTimeCoef: ttc }),
-  moveOneStep: () =>
+  moveOneStep: async () =>
     set((state) => ({
       timeCoef: state.timeCoef + (state.targetTimeCoef - state.timeCoef) * 0.02,
     })),

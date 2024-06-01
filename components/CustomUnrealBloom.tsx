@@ -9,6 +9,7 @@ import { Vector2 } from "three";
 import ZoomBlur from "./blur/ZoomBlur";
 import { useMemo } from "react";
 import { useModeStore } from "./StateProvider";
+import { useState } from "react";
 // Extend the JSX namespace to include UnrealBloomPass
 declare global {
   namespace JSX {
@@ -23,13 +24,15 @@ extend({ UnrealBloomPass, MotionBlurPass });
 
 const CustomUnrealBloom = ({
   bloomStrength = 2,
-  bloomRadius = 0,
+  bloomRadius = 0.6,
   bloomThreshold = 0,
   zoomStrength = 0,
 }) => {
   const { gl, scene, camera, size } = useThree();
   const composer = useRef<EffectComposer>();
   const timeCoef = useModeStore.use.timeCoef();
+  const targetTimeCoef = useModeStore.use.targetTimeCoef();
+  const [tc, setTc] = useState(timeCoef);
   const zoomUniforms = useMemo(
     () => ({
       tDiffuse: null,
@@ -47,12 +50,12 @@ const CustomUnrealBloom = ({
       bloomThreshold
     );
     const motionBlurPass = new MotionBlurPass(scene, camera, {
-      samples: 15,
+      samples: 8,
       expandGeometry: 0,
-      interpolateGeometry: 1,
-      smearIntensity: 3.8,
+      interpolateGeometry: 0.5,
+      smearIntensity: 2.8,
       blurTransparent: false,
-      renderCameraBlur: true,
+      renderCameraBlur: false,
     });
     const zoomBlurPass = new ShaderPass({
       ...ZoomBlur,
@@ -74,9 +77,10 @@ const CustomUnrealBloom = ({
       //console.log((composer.current.passes.at(3) as ShaderPass).uniforms);
       if ((composer.current.passes.at(3) as ShaderPass).uniforms)
         (composer.current.passes.at(3) as ShaderPass).uniforms.strength = {
-          value: timeCoef * 0.004,
+          value: tc * 0.004,
         };
     }
+    setTc(tc + (targetTimeCoef - tc) * 0.02);
     if (composer.current) composer.current.render();
   }, 1);
 

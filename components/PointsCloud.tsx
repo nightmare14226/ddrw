@@ -8,7 +8,7 @@ import { Vector3 } from "three";
 import { Color } from "three";
 import { MathUtils } from "three";
 import { useModeStore } from "./StateProvider";
-import useStore from "./StateProvider";
+import { useState } from "react";
 const { randFloat: rnd, randInt, randFloatSpread: rndFS } = MathUtils;
 const vertexShader = `
   uniform float uTime;
@@ -16,10 +16,19 @@ const vertexShader = `
   attribute float size;
   attribute float velocity;
   varying vec4 vColor;
+  float random(float seed) {
+    return fract(sin(seed) * 43758.5453123);
+  }
   void main(){
     vColor = vec4(color, 1.0);
     vec3 p = vec3(position);
     p.z = -150. + mod(position.z + uTime, 300.);
+    if(p.z > 50.) {
+      float rand = random(p.x * 12.9898 + p.y * 78.233 + uTime);
+      p.x = floor(100. * (rand - 0.5));
+      float rand1 = random(p.x * 8.3586 + p.y * 58.578 + uTime);
+      p.y = floor(100. * (rand1 - 0.5));
+    }
     vec4 mvPosition = modelViewMatrix * vec4( p, 1.0 );
     gl_PointSize = size * (-30.0 / mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
@@ -36,18 +45,14 @@ const fragmentShader = `
 const PointsCloud = () => {
   const ref = useRef<THREE.Points>();
   const materialRef = useRef<THREE.ShaderMaterial>();
-  const moveOneStep = useModeStore.use.moveOneStep();
   const timeCoef = useModeStore.use.timeCoef();
+  const targetTimeCoef = useModeStore.use.targetTimeCoef();
+  const [tc, setTc] = useState(timeCoef);
   useFrame((state, delta) => {
-    if (ref.current) {
-      materialRef.current.uniforms.uTime.value += delta * 5 * timeCoef;
-      moveOneStep();
-    }
+    materialRef.current.uniforms.uTime.value += delta * 5 * tc;
+    setTc(tc + (targetTimeCoef - tc) * 0.02);
   });
-  const texture = useLoader(
-    THREE.TextureLoader,
-    "https://assets.codepen.io/33787/sprite.png"
-  );
+  const texture = useLoader(THREE.TextureLoader, "/assets/images/sprite.png");
   const palette = [
     "#a70267",
     "#f10c49",

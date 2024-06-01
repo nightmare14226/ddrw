@@ -8,7 +8,7 @@ import { DoubleSide, Line } from "three";
 import { Vector3 } from "three";
 import { ReactThreeFiber, extend } from "@react-three/fiber";
 import Triangle from "./Triangle";
-import { useMatrix } from "@/contexts/MatrixContext";
+import { useModeStore } from "./StateProvider";
 extend({ Line_: Line });
 declare global {
   namespace JSX {
@@ -59,7 +59,11 @@ const RibbonEdge: React.FC<RibbonEdgeProps> = ({ start, end, keyn }) => {
 };
 const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   //const canvas2D = useContext(CanvasContext);
-  const { ribbons, addOne, resetRibbons } = useMatrix();
+  const ribbons = useModeStore.use.ribbons();
+  const setRibbons = useModeStore.use.setRibbons();
+  const setSection = useModeStore.use.setSection();
+  const deleteRibbon = useModeStore.use.deleteRibbon();
+  const addRibbon = useModeStore.use.addRibbon();
   const [width, setWidth] = useState(canvasRef.current.width);
   const [height, setHeight] = useState(canvasRef.current.height);
   const [vis, setVis] = useState<boolean>(true);
@@ -88,12 +92,12 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     // add animation effect to each ribbon section over time
     animateSections: true,
   };
-  function addRibbon() {
+  function addOne() {
     // movement data
     //@ts-ignore
     var dir = Math.round(random([1, 9])) > 5 ? "right" : "left",
-      stop = 100,
-      hide = 20,
+      stop = 1000,
+      hide = 200,
       min = 0 - width / 2 - hide,
       max = width / 2 + hide,
       movex = 0,
@@ -156,7 +160,7 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       color += options.colorCycleSpeed;
     }
     setIdx(idx + 1);
-    ribbons.push(ribbon);
+    addRibbon(ribbon);
   }
   const drawRibbonSection = (section) => {
     if (section) {
@@ -192,16 +196,13 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     return [section, false]; // not done yet
   };
   function onDraw() {
-    for (var i = 0, t = ribbons.length; i < t; ++i) {
-      if (!ribbons[i]) {
-        ribbons.splice(i, 1);
-      }
-    }
+    // console.log(ribbons.length);
     for (
-      var a = 0;
-      a < ribbons.length;
-      ++a // single ribbon
+      var a = ribbons.length - 1;
+      a >= 0;
+      --a // single ribbon
     ) {
+      if (!ribbons[a]) continue;
       var ribbon = ribbons[a];
       var numSections = ribbon.length,
         numDone = 0;
@@ -212,28 +213,27 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
         ++b // ribbon section
       ) {
         var res;
-        res = drawRibbonSection(ribbon[b]);
-        ribbon[b] = res[0];
+        var section = { ...ribbon[b] };
+        res = drawRibbonSection(section);
+        setSection(a, b, res[0]);
         if (res[1]) {
           numDone++; // section done
           // console.log("done", numDone, numSections);
         }
       }
       if (numDone >= numSections) {
+        console.log("done");
+        deleteRibbon(a);
         // ribbon done
-        ribbons[a] = null;
       }
     }
     // maintain optional number of ribbons on canvas
-    if (ribbons.length < options.ribbonCount) {
-      addRibbon();
-    }
-    // console.log("ribbons length", ribbons.length);
-    resetRibbons(ribbons);
+    console.log(ribbons.length);
+    if (ribbons.length < options.ribbonCount) addOne();
+    // else setRibbons(ribbons);
   }
   useEffect(() => {}, []);
   useFrame((state, delta) => {
-    console.log(1);
     onDraw();
     if (vis) {
       setVis(false);

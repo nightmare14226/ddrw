@@ -35,7 +35,13 @@ export function DDRW() {
   return (
     <div className="block w-[450px] h-[450px] nx-auto">
       <Canvas className="z-10 w-full h-full" camera={{ manual: true }}>
-        <PerspectiveCamera fov={50} position={[0, 0, 5]} manual makeDefault />
+        <PerspectiveCamera
+          fov={50}
+          position={[0, 0, 5]}
+          zoom={1.6}
+          manual
+          makeDefault
+        />
         <ambientLight />
         <pointLight position={[0, 0, 1]} />
         <MeshComponent />

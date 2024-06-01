@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { DDRW } from "@/components/ddrw";
 import LightPoints from "@/components/LightPoints";
 import Ribbons from "@/components/Ribbons";
-import MatrixProvider from "@/contexts/MatrixContext";
+import MainForm from "@/components/MainForm";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "DDRW",
@@ -31,18 +32,31 @@ export default function IndexPage() {
       {/* <DDRW /> */}
       <div className="w-full min-h-screen absolute inset-0">
         {/* <LightPoints /> */}
-        <div className="hidden dark:block w-full h-full z-10">
-          <div className="absolute mt-20">
-            <DDRW />
-          </div>
-          <div className="backdrop-blur-[0.2rem] w-full h-full">
-            <LightPoints />
+        <div className=" w-full h-full z-10">
+          <div className="flex relative flex-row bg-transparent h-full">
+            <div className="mx-auto my-auto flex flex-row max-w-7xl">
+              <div className="grid grid-flow-col gap-5">
+                <div className="mx-auto grid grid-flow-row z-40 gap-5 my-auto">
+                  <h1 className="selection:bg-white/50 selection:text-white text-left lg:text-left font-raleway font-bold uppercase md:pt-0 text-gray-300 text-4xl md:text-5xl lg:text-7xl xl:text-8xl">
+                    DECENTRALIZED
+                  </h1>
+                  <p className="selection:bg-white/50 selection:text-white text-left relative -top-2 md:pl-0 font-raleway font-extralight text-gray-300 text-[1.29rem] md:text-[1.77rem] lg:text-[2.64rem] xl:text-[3.55rem]]">
+                    Data Resoures for Web
+                  </p>
+                  <Button className="w-[200px]">Sign In</Button>
+                </div>
+                <div className="flex w-[450px] h-[450px]">
+                  <DDRW />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className=" inset-0 h-full bg-transparent z-0">
-          <MatrixProvider>
-            <Ribbons />
-          </MatrixProvider>
+        <div className="hidden dark:block absolute inset-0 w-full h-full">
+          <LightPoints />
+        </div>
+        <div className="dark:hidden absolute inset-0 w-full h-full bg-transparent z-0">
+          <Ribbons />
         </div>
       </div>
     </>
