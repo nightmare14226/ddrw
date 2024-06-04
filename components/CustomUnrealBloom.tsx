@@ -1,5 +1,6 @@
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { UnrealBloomPass } from "three/examples/jsm/Addons.js";
+import { BloomPass } from "three/examples/jsm/Addons.js";
 import { EffectComposer } from "three/examples/jsm/Addons.js";
 import { RenderPass } from "three/examples/jsm/Addons.js";
 import { MotionBlurPass } from "./blur/MotionBlurPass";
@@ -23,7 +24,7 @@ declare global {
 extend({ UnrealBloomPass, MotionBlurPass });
 
 const CustomUnrealBloom = ({
-  bloomStrength = 2,
+  bloomStrength = 1.2,
   bloomRadius = 0.6,
   bloomThreshold = 0,
   zoomStrength = 0,
@@ -43,6 +44,7 @@ const CustomUnrealBloom = ({
   );
   useEffect(() => {
     const renderPass = new RenderPass(scene, camera);
+    const bloomPass = new BloomPass(1, 1, 0.3);
     const unrealBloomPass = new UnrealBloomPass(
       new Vector2(size.width, size.height),
       bloomStrength,
@@ -54,7 +56,7 @@ const CustomUnrealBloom = ({
       expandGeometry: 0,
       interpolateGeometry: 0.5,
       smearIntensity: 2.8,
-      blurTransparent: false,
+      blurTransparent: true,
       renderCameraBlur: false,
     });
     const zoomBlurPass = new ShaderPass({

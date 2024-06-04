@@ -41,9 +41,9 @@ const LightPoints: React.FC = () => {
           : 1,
         fov: 50,
         near: 1,
-        far: 1000,
+        far: 70,
         position: [0, 0, 0],
-        zoom: 1,
+        zoom: 0.3,
       }}
       gl={{ alpha: true, antialias: true }}
       onCreated={onCreated}

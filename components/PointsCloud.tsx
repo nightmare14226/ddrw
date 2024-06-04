@@ -123,7 +123,7 @@ const PointsCloud = () => {
       </bufferGeometry>
       <shaderMaterial
         ref={materialRef}
-        blending={2}
+        blending={1}
         depthTest={false}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
