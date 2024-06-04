@@ -9,6 +9,9 @@ import { fontSans } from "@/lib/fonts";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import LightPoints from "@/components/LightPoints";
+import Ribbons from "@/components/Ribbons";
+import { DDRW } from "@/components/ddrw";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: {
@@ -50,7 +53,28 @@ export default async function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <div className="flex-1">{children}</div>
+              <div className="hidden dark:block absolute inset-0 w-full h-full">
+                <LightPoints />
+              </div>
+              <div className="dark:hidden absolute inset-0 w-full h-full bg-transparent z-0">
+                <Ribbons />
+              </div>
+
+              <div className="w-full min-h-screen absolute inset-0">
+                {/* <LightPoints /> */}
+                <div className=" w-full h-full z-10">
+                  <div className="flex relative flex-row bg-transparent h-full">
+                    <div className="mx-auto my-auto flex flex-row max-w-7xl w-full">
+                      <div className="grid grid-flow-col w-full">
+                        <div className="z-40 mr-0">
+                          <DDRW />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {children}
             </div>
             <TailwindIndicator />
           </ThemeProvider>

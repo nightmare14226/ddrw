@@ -12,7 +12,7 @@
         @apply w-full  bg-white/50 text-white border-0 hover:bg-gray-600 hover:text-white py-7 rounded-sm;
     }
     .btn-out {
-        @apply hover:bg-regal-second/50 w-full h-12 items-center xl:w-1/2 shadow-sm rounded-sm backdrop-blur-md  relative flex justify-center py-0 mt-0 lg:mt-2 px-4 border border-transparent text-sm font-medium text-white bg-regal-main/50 focus:outline-none focus:ring-2;
+        @apply hover:bg-green-400/50 w-full h-12 items-center xl:w-1/2 shadow-sm rounded-sm backdrop-blur-md  relative flex justify-center py-0 mt-0 lg:mt-2 px-4 border border-transparent text-sm font-medium text-white bg-white/50 focus:outline-none focus:ring-2;
     }
     .title-header {
         @apply flex justify-center lg:justify-start items-center py-12 md:h-full header-bg px-2 md:px-12;
@@ -21,7 +21,7 @@
         @apply h-[350px] md:h-[calc(350px)] lg:h-[350px];
     }
     .active {
-        @apply bg-regal-main text-white;
+        @apply bg-white text-white;
     }
     .selectTab {
         @apply;
