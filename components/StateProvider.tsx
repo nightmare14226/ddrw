@@ -20,6 +20,7 @@ interface ModeStore {
   timeCoef: number;
   targetTimeCoef: number;
   hyperMode: boolean;
+  turboMode: boolean;
   ribbons: any[][];
   addRibbon: (rb: any[]) => void;
   deleteRibbon: (id: number) => void;
@@ -27,6 +28,7 @@ interface ModeStore {
   setSection: (row: number, col: number, sec: RibbonType) => void;
   setHyperMode: (hm: boolean) => void;
   changeHyperMode: () => void;
+  changeTurboMode: () => void;
   setTimeCoef: (tc: number) => void;
   setTargetTimeCoef: (ttc: number) => void;
   moveOneStep: () => void;
@@ -35,6 +37,7 @@ const useStore = create<ModeStore>()((set) => ({
   timeCoef: 1,
   targetTimeCoef: 1,
   hyperMode: false,
+  turboMode: false,
   ribbons: [],
   setHyperMode: (hm) =>
     set({
@@ -77,12 +80,36 @@ const useStore = create<ModeStore>()((set) => ({
             targetTimeCoef: 100,
           }
     ),
+  changeTurboMode: () => {
+    set((state) =>
+      state.turboMode == true
+        ? {
+            turboMode: false,
+            targetTimeCoef: 1,
+          }
+        : {
+            turboMode: true,
+            targetTimeCoef: 50,
+          }
+    );
+  },
   setTimeCoef: (tc) => set({ timeCoef: tc }),
   setTargetTimeCoef: (ttc) => set({ targetTimeCoef: ttc }),
   moveOneStep: async () =>
-    set((state) => ({
-      timeCoef: state.timeCoef + (state.targetTimeCoef - state.timeCoef) * 0.02,
-    })),
+    set((state) => {
+      return state.turboMode
+        ? {
+            timeCoef:
+              state.timeCoef + (state.targetTimeCoef - state.timeCoef) * 0.02,
+            targetTimeCoef: state.timeCoef > 40 ? 1 : state.targetTimeCoef,
+            turboMode:
+              state.timeCoef < 10 && state.targetTimeCoef == 1 ? false : true,
+          }
+        : {
+            timeCoef:
+              state.timeCoef + (state.targetTimeCoef - state.timeCoef) * 0.02,
+          };
+    }),
 }));
 
 type WithSelectors<S> = S extends { getState: () => infer T }

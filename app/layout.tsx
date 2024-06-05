@@ -53,7 +53,8 @@ export default async function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <div className="hidden dark:block absolute inset-0 w-full h-full blur-sm">
+              {/* <RouteChangeListener /> */}
+              <div className="hidden dark:block absolute inset-0 w-full h-full">
                 <LightPoints />
               </div>
               <div className="dark:hidden absolute inset-0 w-full h-full bg-transparent z-0">

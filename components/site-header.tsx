@@ -1,6 +1,7 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
 import RocketToggle from "./rocket-toggle";
+import RouteChangeListener from "./RouteChangeListener";
 
 export function SiteHeader() {
   return (

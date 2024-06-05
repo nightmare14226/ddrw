@@ -5,6 +5,7 @@ import Ribbons from "@/components/Ribbons";
 import MainForm from "@/components/MainForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
+import CustomLink from "@/components/ui/CustomLink";
 import "@/styles/tailwind.scss";
 import Link from "next/link";
 export const metadata: Metadata = {
@@ -45,19 +46,7 @@ export default function IndexPage() {
                   <p className="selection:bg-white/50 selection:text-white text-left relative -top-2 md:pl-0 font-raleway font-extralight text-gray-300 text-[1.29rem] md:text-[1.77rem] lg:text-[2.64rem] xl:text-[3.55rem]]">
                     Data Resoures for Web
                   </p>
-
-                  <Link className="btn btn-out" href="/register">
-                    <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
-                    <p className="text-white text-left group-hover:text-white">
-                      Присоединиться
-                      <span className="absolute right-0 inset-y-0 flex items-center pr-3">
-                        <ArrowRightIcon
-                          className="h-5 w-5 text-white group-hover:text-white"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </p>
-                  </Link>
+                  <CustomLink href="/register" />
                 </div>
               </div>
             </div>
