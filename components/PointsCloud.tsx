@@ -88,13 +88,19 @@ const PointsCloud = () => {
     "#f03c02",
   ];
   const POINTS_COUNT = 50000;
-  const positions = new Float32Array(POINTS_COUNT * 3 + 10);
-  const colors = new Float32Array(POINTS_COUNT * 4 + 10);
-  const sizes = new Float32Array(POINTS_COUNT + 10);
-  const v3 = new Vector3(),
-    color = new Color();
+  const positions = useMemo(() => {
+    return new Float32Array(POINTS_COUNT * 3 + 10);
+  }, []);
+  const colors = useMemo(() => {
+    return new Float32Array(POINTS_COUNT * 4 + 10);
+  }, []);
+  const sizes = useMemo(() => {
+    return new Float32Array(POINTS_COUNT + 10);
+  }, []);
   useEffect(() => {
     for (let i = 0; i < POINTS_COUNT; i++) {
+      const v3 = new Vector3(),
+        color = new Color();
       v3.set(rndFS(200), rndFS(200), rndFS(300));
       v3.toArray(positions, i * 3);
       color.set(palette[Math.floor(rnd(0, palette.length))]);
