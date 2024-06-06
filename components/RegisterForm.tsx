@@ -12,6 +12,8 @@ import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useModeStore } from "./StateProvider";
+import { useRouter } from "next/navigation";
+
 export default function RegisterForm() {
   const {
     register,
@@ -19,10 +21,15 @@ export default function RegisterForm() {
     formState: { errors },
   } = useForm<RegisterSchemaType>({ resolver: zodResolver(RegisterSchema) });
   const changeTurboMode = useModeStore.use.changeTurboMode();
+  const router = useRouter();
   const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => {
     changeTurboMode();
     console.log(data);
   };
+  const handleClick = useCallback(() => {
+    changeTurboMode();
+    router.push("/");
+  }, []);
   useEffect(() => {});
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -30,13 +37,15 @@ export default function RegisterForm() {
         <div className="w-full xl:max-w-xl space-y-8">
           <div className="grid grid-flow-row gap-10">
             <div className="flex w-full justify-center items-center xl:pb-8">
-              <span>
-                <CornerUpLeft />
-              </span>
-              <span className="font-ligh uppercase font-raleway text-xl text-gray-200 hidden md:block pb-0 pl-0 w-80">
+              <div onClick={handleClick} className="mr-5">
+                <span>
+                  <CornerUpLeft />
+                </span>
+              </div>
+              <span className="font-light uppercase font-raleway text-xl text-gray-200 hidden md:block pb-0 pl-0 w-80 mr-5">
                 Регистрация
               </span>
-              <div className="hidden md:block h-[0.01rem] w-full bg-regal-main/100"></div>
+              <div className="block h-[0.01rem] w-full bg-regal-main/100 border-white border-b top-[-4px]"></div>
               <div className="block ml-5">
                 <Link href="/passport">
                   <LogOut />
