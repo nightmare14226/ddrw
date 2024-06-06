@@ -41,7 +41,7 @@ const LightPoints: React.FC = () => {
           : 1,
         fov: 50,
         near: 1,
-        far: 70,
+        far: 100,
         position: [0, 0, 0],
         zoom: 0.3,
       }}
