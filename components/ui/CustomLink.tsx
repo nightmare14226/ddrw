@@ -14,7 +14,12 @@ const CustomLink: React.FC<LinkProps> = ({ href }) => {
     changeTurboMode();
   }, [href]);
   return (
-    <Link className="btn btn-out" href={href} onClick={handleClick}>
+    <Link
+      className="btn btn-out submit-button"
+      href={href}
+      onClick={handleClick}
+      type="submit"
+    >
       <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
       <p className="text-white text-left group-hover:text-white">
         Присоединиться

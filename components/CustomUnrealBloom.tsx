@@ -24,8 +24,8 @@ declare global {
 extend({ UnrealBloomPass, MotionBlurPass });
 
 const CustomUnrealBloom = ({
-  bloomStrength = 1.2,
-  bloomRadius = 1,
+  bloomStrength = 1,
+  bloomRadius = 0.3,
   bloomThreshold = 0,
   zoomStrength = 0,
 }) => {
@@ -87,7 +87,7 @@ const CustomUnrealBloom = ({
     }
     if (!turboMode) setTc(tc + (targetTimeCoef - tc) * 0.02);
     else setTc(tc + (targetTimeCoef - tc) * 0.1);
-    if (turboMode && tc > 9.9) {
+    if (turboMode && tc > 19.9) {
       setTargetTimeCoef(1);
     }
     if (turboMode && tc < 2 && targetTimeCoef == 1) changeTurboMode();

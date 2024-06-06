@@ -55,7 +55,7 @@ const PointsCloud = () => {
     materialRef.current.uniforms.uTime.value += delta * 5 * tc;
     if (!turboMode) setTc(tc + (targetTimeCoef - tc) * 0.02);
     else setTc(tc + (targetTimeCoef - tc) * 0.1);
-    if (turboMode && tc > 9.9) {
+    if (turboMode && tc > 19.9) {
       setTargetTimeCoef(1);
     }
     if (turboMode && tc < 1.1 && targetTimeCoef == 1) changeTurboMode();
@@ -136,6 +136,7 @@ const PointsCloud = () => {
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
+        transparent={true}
       ></shaderMaterial>
     </points>
   );

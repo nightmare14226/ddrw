@@ -8,7 +8,7 @@ export default function RegisterPage() {
           <div className="flex relative flex-row bg-transparent h-full">
             <div className="mx-auto my-auto flex flex-row max-w-7xl">
               <div className="grid grid-flow-col gap-5">
-                <div className="mx-auto grid grid-flow-row z-40 gap-5 my-auto mr-[420px]">
+                <div className="mx-auto grid grid-flow-row z-40 gap-5 my-auto mr-[420px] w-[800px]">
                   <RegisterForm />
                 </div>
               </div>
