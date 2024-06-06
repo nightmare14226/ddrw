@@ -93,16 +93,15 @@ const PointsCloud = () => {
   const sizes = new Float32Array(POINTS_COUNT + 10);
   const v3 = new Vector3(),
     color = new Color();
-  for (let i = 0; i < 12500; i++) {
-    v3.set(rndFS(200), rndFS(200), rndFS(300));
-    v3.toArray(positions, i * 3);
-    color.set(palette[Math.floor(rnd(0, palette.length))]);
-    color.toArray(colors, i * 3);
-    sizes[i] = rnd(5, 20);
-  }
-  /*useEffect(() => {
-    
-  });*/
+  useEffect(() => {
+    for (let i = 0; i < POINTS_COUNT; i++) {
+      v3.set(rndFS(200), rndFS(200), rndFS(300));
+      v3.toArray(positions, i * 3);
+      color.set(palette[Math.floor(rnd(0, palette.length))]);
+      color.toArray(colors, i * 3);
+      sizes[i] = rnd(5, 20);
+    }
+  });
   const uniforms = useMemo(
     () => ({ uTime: { value: 0.5 }, uTexture: { value: texture } }),
     []
