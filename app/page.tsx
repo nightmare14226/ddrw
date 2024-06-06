@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { DDRW } from "@/components/ddrw";
-import LightPoints from "@/components/LightPoints";
-import Ribbons from "@/components/Ribbons";
-import MainForm from "@/components/MainForm";
-import { Button } from "@/components/ui/button";
-import { ArrowRightIcon } from "lucide-react";
 import CustomLink from "@/components/ui/CustomLink";
 import "@/styles/tailwind.scss";
-import Link from "next/link";
 export const metadata: Metadata = {
   title: "DDRW",
   description: "Distributed Data Resources and Web",

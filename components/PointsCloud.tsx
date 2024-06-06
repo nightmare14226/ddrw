@@ -88,9 +88,9 @@ const PointsCloud = () => {
     "#f03c02",
   ];
   const POINTS_COUNT = 50000;
-  const positions = new Float32Array(POINTS_COUNT * 3);
-  const colors = new Float32Array(POINTS_COUNT * 3);
-  const sizes = new Float32Array(POINTS_COUNT);
+  const positions = new Float32Array(POINTS_COUNT * 3 + 10);
+  const colors = new Float32Array(POINTS_COUNT * 4 + 10);
+  const sizes = new Float32Array(POINTS_COUNT + 10);
   const v3 = new Vector3(),
     color = new Color();
   for (let i = 0; i < POINTS_COUNT; i++) {
