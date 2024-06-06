@@ -222,13 +222,13 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
         }
       }
       if (numDone >= numSections) {
-        console.log("done");
+        // console.log("done");
         deleteRibbon(a);
         // ribbon done
       }
     }
     // maintain optional number of ribbons on canvas
-    console.log(ribbons.length);
+    // console.log(ribbons.length);
     if (ribbons.length < options.ribbonCount) addOne();
     // else setRibbons(ribbons);
   }
