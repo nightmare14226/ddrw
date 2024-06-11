@@ -247,22 +247,20 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
             new Vector3(k.point3.x, k.point3.y, 0),
           ];
           return (
-            <>
-              <Triangle
-                vertices={vertices}
-                key={k.id}
-                col={
-                  "hsl(" +
-                  k.color +
-                  ", " +
-                  options.colorSaturation +
-                  ", " +
-                  options.colorBrightness +
-                  ")"
-                }
-                alpha={k.alpha}
-              />
-            </>
+            <Triangle
+              vertices={vertices}
+              key={k.id + index}
+              col={
+                "hsl(" +
+                k.color +
+                ", " +
+                options.colorSaturation +
+                ", " +
+                options.colorBrightness +
+                ")"
+              }
+              alpha={k.alpha}
+            />
           );
         })}
       {ribbons[1] &&
@@ -273,22 +271,20 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
             new Vector3(k.point3.x, k.point3.y, 0),
           ];
           return (
-            <>
-              <Triangle
-                vertices={vertices}
-                key={k.id}
-                col={
-                  "hsl(" +
-                  k.color +
-                  ", " +
-                  options.colorSaturation +
-                  ", " +
-                  options.colorBrightness +
-                  ")"
-                }
-                alpha={k.alpha}
-              />
-            </>
+            <Triangle
+              vertices={vertices}
+              key={k.id + index}
+              col={
+                "hsl(" +
+                k.color +
+                ", " +
+                options.colorSaturation +
+                ", " +
+                options.colorBrightness +
+                ")"
+              }
+              alpha={k.alpha}
+            />
           );
         })}
       {ribbons[2] &&
@@ -299,22 +295,20 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
             new Vector3(k.point3.x, k.point3.y, 0),
           ];
           return (
-            <>
-              <Triangle
-                vertices={vertices}
-                key={k.id}
-                col={
-                  "hsl(" +
-                  k.color +
-                  ", " +
-                  options.colorSaturation +
-                  ", " +
-                  options.colorBrightness +
-                  ")"
-                }
-                alpha={k.alpha}
-              />
-            </>
+            <Triangle
+              vertices={vertices}
+              key={k.id + index}
+              col={
+                "hsl(" +
+                k.color +
+                ", " +
+                options.colorSaturation +
+                ", " +
+                options.colorBrightness +
+                ")"
+              }
+              alpha={k.alpha}
+            />
           );
         })}
     </>

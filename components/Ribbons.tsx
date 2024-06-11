@@ -13,7 +13,6 @@ const Ribbons: React.FC = () => {
   function onCreated({ gl, scene }) {
     gl.setClearColor(0x000000, 0.05);
     scene.background = null;
-    console.log(gl.getContext());
     gl.getContext().globalAlpha = 0.3;
   }
   return (
