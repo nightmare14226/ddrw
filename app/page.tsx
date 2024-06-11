@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import CustomLink from "@/components/ui/CustomLink";
 import "@/styles/tailwind.scss";
 export const metadata: Metadata = {
-  title: "DDRW",
-  description: "Distributed Data Resources and Web",
+  title: "DDRW – мастерская технологических решений",
+  description: "Разработка программ для бизнеса и частных лиц.",
   openGraph: {
-    title: "DDRW",
+    title: "DDRW – мастерская технологических решений",
     type: "website",
     siteName: "DDRW",
-    url: "https://ddrw.org/",
-    locale: "en",
-    description: "Distributed Data Resources and Web.",
+    url: "https://www.ddrw.ru/",
+    locale: "ru",
+    description: "Разработка программ для бизнеса и частных лиц.",
     images: [
       {
         type: "image/png",
         width: 100,
         height: 100,
-        url: "https://www.ticketshub.ge/opengraph-image.png",
+        url: "https://www.ddrw.ru/photo.png",
       },
     ],
   },

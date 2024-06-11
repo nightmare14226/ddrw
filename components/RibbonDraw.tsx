@@ -71,11 +71,11 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   let scroll = 0;
   const options = {
     // ribbon color HSL saturation amount
-    colorSaturation: "80%",
+    colorSaturation: "0%",
     // ribbon color HSL brightness amount
-    colorBrightness: "60%",
+    colorBrightness: "80%",
     // ribbon color opacity amount
-    colorAlpha: 0.3,
+    colorAlpha: 0.65,
     // how fast to cycle through colors in the HSL color space
     colorCycleSpeed: 6,
     // where to start from on the Y axis on each side (top|min, middle|center, bottom|max, random)
@@ -118,7 +118,7 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       point2 = new Point(startx, starty),
       point3 = null,
       //@ts-ignore
-      color = Math.round(random([0, 360])),
+      color = 0,
       delay = 0;
     // builds ribbon sections
     while (true) {
@@ -169,9 +169,9 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
       var t = section.delay;
       if (section.delay <= 0) {
         section.phase += 0.02;
-        section.alpha = Math.sin(section.phase) * 1;
+        section.alpha = Math.sin(section.phase) * 0.35;
         section.alpha = section.alpha <= 0 ? 0 : section.alpha;
-        section.alpha = section.alpha >= 1 ? 1 : section.alpha;
+        section.alpha = section.alpha >= 0.35 ? 0.35 : section.alpha;
         if (options.animateSections) {
           var mod = Math.sin(1 + (section.phase * Math.PI) / 2) * 0.1;
 

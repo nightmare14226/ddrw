@@ -7,19 +7,14 @@ import { Color } from "three";
 import { useRef } from "react";
 import { useMemo } from "react";
 import RibbonDraw from "./RibbonDraw";
-const fragmentShader = `
-  uniform sampler2D uTexture;
-  varying vec4 vColor;
-  void main() {
-    gl_FragColor = vColor * texture2D(uTexture, gl_PointCoord);
-  }
-`;
 const Ribbons: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const uniforms = useMemo(() => ({ uTime: { value: 0.5 } }), []);
   function onCreated({ gl, scene }) {
-    gl.setClearColor(new Color("black"));
-    scene.background = new Color("black");
+    gl.setClearColor(0x000000, 0.05);
+    scene.background = null;
+    console.log(gl.getContext());
+    gl.getContext().globalAlpha = 0.3;
   }
   return (
     <Canvas

@@ -1,12 +1,9 @@
 "use client";
 
-import React, { Suspense, useContext } from "react";
-import { NextPage } from "next";
-import { Canvas, useThree } from "@react-three/fiber";
-import { Effects } from "@react-three/drei";
+import React from "react";
+import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
-import { Color, Vector2 } from "three";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { Color } from "three";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
