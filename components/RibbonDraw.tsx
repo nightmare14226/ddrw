@@ -60,7 +60,6 @@ const RibbonEdge: React.FC<RibbonEdgeProps> = ({ start, end, keyn }) => {
 const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   //const canvas2D = useContext(CanvasContext);
   const ribbons = useModeStore.use.ribbons();
-  const setRibbons = useModeStore.use.setRibbons();
   const setSection = useModeStore.use.setSection();
   const deleteRibbon = useModeStore.use.deleteRibbon();
   const addRibbon = useModeStore.use.addRibbon();
@@ -230,7 +229,6 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
     // maintain optional number of ribbons on canvas
     // console.log(ribbons.length);
     if (ribbons.length < options.ribbonCount) addOne();
-    // else setRibbons(ribbons);
   }
   useEffect(() => {}, []);
   useFrame((state, delta) => {

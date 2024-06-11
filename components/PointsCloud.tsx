@@ -92,7 +92,7 @@ const PointsCloud = () => {
     return new Float32Array(POINTS_COUNT * 3 + 10);
   }, []);
   const colors = useMemo(() => {
-    return new Float32Array(POINTS_COUNT * 4 + 10);
+    return new Float32Array(POINTS_COUNT * 3 + 10);
   }, []);
   const sizes = useMemo(() => {
     return new Float32Array(POINTS_COUNT + 10);
