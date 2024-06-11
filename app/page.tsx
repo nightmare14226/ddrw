@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CustomLink from "@/components/ui/CustomLink";
 import "@/styles/tailwind.scss";
+import { DDRW } from "@/components/ddrw";
 export const metadata: Metadata = {
   title: "DDRW – мастерская технологических решений",
   description: "Разработка программ для бизнеса и частных лиц.",
@@ -32,7 +33,7 @@ export default function IndexPage() {
           <div className="flex relative flex-row bg-transparent h-full">
             <div className="mx-auto my-auto flex flex-row max-w-7xl">
               <div className="grid grid-flow-col gap-5">
-                <div className="mx-auto grid grid-flow-row z-40 gap-5 my-auto mr-[420px]">
+                <div className="mx-auto grid grid-flow-row z-40 gap-5 my-auto">
                   <h1 className="selection:bg-white/50 selection:text-white text-left lg:text-left font-raleway font-bold uppercase md:pt-0 text-gray-300 text-4xl md:text-5xl lg:text-7xl xl:text-8xl">
                     DECENTRALIZED
                   </h1>
@@ -41,6 +42,7 @@ export default function IndexPage() {
                   </p>
                   <CustomLink href="/register" />
                 </div>
+                <DDRW />
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 
 import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-
+import NextTopLoader from "nextjs-toploader";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
@@ -52,6 +52,17 @@ export default async function RootLayout({
             fontSans.variable
           )}
         >
+          <NextTopLoader
+            color="#2299DD"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+          />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
               <SiteHeader />
@@ -61,21 +72,6 @@ export default async function RootLayout({
               </div>
               <div className="dark:hidden absolute inset-0 w-full h-full z-0 blur-sm">
                 <Ribbons />
-              </div>
-
-              <div className="w-full min-h-screen absolute inset-0 ">
-                {/* <LightPoints /> */}
-                <div className=" w-full h-full z-10">
-                  <div className="flex relative flex-row bg-transparent h-full">
-                    <div className="mx-auto my-auto flex flex-row max-w-7xl w-full">
-                      <div className="grid grid-flow-col w-full">
-                        <div className="z-40 mr-0">
-                          <DDRW />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
               {children}
             </div>
