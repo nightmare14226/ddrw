@@ -92,7 +92,7 @@ const PointsCloud = () => {
     return new Float32Array(POINTS_COUNT * 3 + 10);
   }, []);
   const colors = useMemo(() => {
-    return new Float32Array(POINTS_COUNT * 3 + 10);
+    return new Float32Array(POINTS_COUNT * 4 + 10);
   }, []);
   const sizes = useMemo(() => {
     return new Float32Array(POINTS_COUNT + 10);
@@ -125,13 +125,13 @@ const PointsCloud = () => {
           attach="attributes-color"
           array={colors}
           count={POINTS_COUNT}
-          itemSize={3}
+          itemSize={4}
         />
         <bufferAttribute
           attach="attributes-size"
           array={sizes}
           count={POINTS_COUNT}
-          itemSize={3}
+          itemSize={1}
         />
       </bufferGeometry>
       <shaderMaterial
