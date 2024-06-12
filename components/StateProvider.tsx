@@ -82,7 +82,11 @@ const useStore = create<ModeStore>()((set) => ({
     ),
   changeTurboMode: () => {
     set((state) =>
-      state.turboMode == true
+      state.hyperMode == true
+        ? {
+            turboMode: state.turboMode,
+          }
+        : state.turboMode == true
         ? {
             turboMode: false,
             targetTimeCoef: 1,

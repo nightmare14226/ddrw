@@ -7,7 +7,7 @@ export function SiteHeader() {
   return (
     <header className="header relative z-10 w-full mx-auto pt-0 flex justify-center items-center h-15">
       <nav className="mx-auto header drop-shadow-md px-0 max-w-7xl mt-0 block lg:mt-0 w-full">
-        <div className="pt-10 relative flex items-center justify-between h-16">
+        <div className="pt-10 relative flex items-center justify-between h-16 mx-[30px]">
           <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-transparent">
             <div className="flex items-center flex-shrink-0 px-4 justify-left z-30">
               <Image

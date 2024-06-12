@@ -25,7 +25,7 @@ const FormField: React.FC<FormFieldProps> = ({
         <input
           type={type}
           placeholder={placeholder}
-          className="bg-transparent border-b border-slate-600 px-[10px] py-[10px] ring-0 focus:ring-0 focus:outline-transparent focus:outline-none focus:border-b w-full focus:ring-inset focus:ring-offset-0 mt-[40px]"
+          className="bg-transparent border-b border-slate-200 px-[10px] py-[10px] ring-0 focus:ring-0 focus:outline-transparent focus:outline-none focus:border-b w-full focus:ring-inset focus:ring-offset-0 mt-[40px]"
           {...register(name, { valueAsNumber })}
         />
       </div>

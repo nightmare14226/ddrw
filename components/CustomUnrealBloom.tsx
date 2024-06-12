@@ -86,7 +86,7 @@ const CustomUnrealBloom = ({
         };
     }
     if (!turboMode) setTc(tc + (targetTimeCoef - tc) * 0.02);
-    else setTc(tc + (targetTimeCoef - tc) * 0.1);
+    else setTc(tc + (targetTimeCoef - tc) * 0.15);
     if (turboMode && tc > 19.9) {
       setTargetTimeCoef(1);
     }

@@ -3,9 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FormField from "./FormField";
 import { ArrowRightIcon, CornerUpLeft, LogOut } from "lucide-react";
 import {
-  FormData,
-  RegisterSchemaType,
-  RegisterSchema,
+  AuthorizationSchemaType,
+  AuthorizationSchema,
 } from "@/types/register/types";
 import Link from "next/link";
 import { useCallback } from "react";
@@ -15,7 +14,7 @@ import { useModeStore } from "./StateProvider";
 import { useRouter } from "next/navigation";
 import PhoneNumberField from "./PhoneNumberField";
 
-export default function RegisterForm() {
+export default function AuthorizationForm() {
   const {
     register,
     handleSubmit,
@@ -23,13 +22,13 @@ export default function RegisterForm() {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm<RegisterSchemaType>({
-    resolver: zodResolver(RegisterSchema),
+  } = useForm<AuthorizationSchemaType>({
+    resolver: zodResolver(AuthorizationSchema),
     mode: "onChange",
   });
   const changeTurboMode = useModeStore.use.changeTurboMode();
   const router = useRouter();
-  const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<AuthorizationSchemaType> = (data) => {
     changeTurboMode();
     console.log(data);
   };
@@ -44,7 +43,7 @@ export default function RegisterForm() {
           <div className="grid grid-flow-row gap-10">
             <div className="flex w-full justify-center items-center xl:pb-8">
               <div onClick={handleClick} className="mr-5">
-                <Link href={"/"}>
+                <Link href={"/register"}>
                   <span>
                     <CornerUpLeft />
                   </span>
@@ -54,30 +53,11 @@ export default function RegisterForm() {
                 Регистрация
               </span>
               <div className="block h-[0.01rem] w-full bg-regal-main/100 border-white border-b top-[-4px]"></div>
-              <div className="block ml-5" onClick={handleClick}>
-                <Link href="/passport">
+              <div className="block ml-5">
+                <Link href="/register">
                   <LogOut />
                 </Link>
               </div>
-            </div>
-            <div className="flex flex-row gap-5 w-full">
-              <FormField
-                type="text"
-                placeholder="Имя профиля"
-                name="name"
-                register={register}
-                error={errors.name}
-              />
-              <PhoneNumberField
-                control={control}
-                type="text"
-                placeholder="Контактный номер"
-                name="phoneNumber"
-                register={register}
-                getValues={getValues}
-                setValue={setValue}
-                error={errors.phoneNumber}
-              />
             </div>
             <div className="flex w-full flex-col gap-10">
               <FormField
@@ -94,18 +74,11 @@ export default function RegisterForm() {
                 register={register}
                 error={errors.password}
               />
-              <FormField
-                type="password"
-                placeholder="Пароль"
-                name="confirmPassword"
-                register={register}
-                error={errors.confirmPassword}
-              />
             </div>
             <button className="btn-out submit-button" type="submit">
               <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
               <p className="text-white text-left group-hover:text-white">
-                Присоединиться
+                присоединиться
                 <span className="absolute right-0 inset-y-0 flex items-center pr-3">
                   <ArrowRightIcon
                     className="h-5 w-5 text-white group-hover:text-white"

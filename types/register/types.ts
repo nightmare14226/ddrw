@@ -62,3 +62,15 @@ export type FormData = {
   
 
   export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
+
+  
+
+  export const AuthorizationSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string()
+  } );
+  
+
+  export type AuthorizationSchemaType = z.infer<typeof RegisterSchema>;
