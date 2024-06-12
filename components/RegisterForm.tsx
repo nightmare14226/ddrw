@@ -55,7 +55,7 @@ export default function RegisterForm() {
               </span>
               <div className="block h-[0.01rem] w-full bg-regal-main/100 border-white border-b top-[-4px]"></div>
               <div className="block ml-5" onClick={handleClick}>
-                <Link href="/passport">
+                <Link href="/authorization">
                   <LogOut />
                 </Link>
               </div>
