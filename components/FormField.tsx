@@ -1,5 +1,4 @@
 import { FormFieldProps } from "@/types/register/types";
-
 const FormField: React.FC<FormFieldProps> = ({
   type,
   placeholder,

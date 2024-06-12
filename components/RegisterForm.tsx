@@ -13,18 +13,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useModeStore } from "./StateProvider";
 import { useRouter } from "next/navigation";
+import PhoneNumberField from "./PhoneNumberField";
 
 export default function RegisterForm() {
   const {
     register,
     handleSubmit,
+    control,
+    getValues,
+    setValue,
     formState: { errors },
-  } = useForm<RegisterSchemaType>({ resolver: zodResolver(RegisterSchema) });
+  } = useForm<RegisterSchemaType>({
+    resolver: zodResolver(RegisterSchema),
+    mode: "onChange",
+  });
   const changeTurboMode = useModeStore.use.changeTurboMode();
   const router = useRouter();
   const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => {
     changeTurboMode();
-    // console.log(data);
+    console.log(data);
   };
   const handleClick = useCallback(() => {
     changeTurboMode();
@@ -60,11 +67,14 @@ export default function RegisterForm() {
                 register={register}
                 error={errors.name}
               />
-              <FormField
+              <PhoneNumberField
+                control={control}
                 type="text"
                 placeholder="Контактный номер"
                 name="phoneNumber"
                 register={register}
+                getValues={getValues}
+                setValue={setValue}
                 error={errors.phoneNumber}
               />
             </div>

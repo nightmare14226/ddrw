@@ -64,7 +64,7 @@ export default async function RootLayout({
             shadow="0 0 10px #2299DD,0 0 5px #2299DD"
           />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
+            <div className="relative flex min-h-screen flex-col mainCv dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
               <SiteHeader />
               {/* <RouteChangeListener /> */}
               <div className="hidden dark:block absolute inset-0 w-full h-full blur-sm">
