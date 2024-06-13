@@ -7,7 +7,7 @@ import {
   RegisterSchemaType,
   RegisterSchema,
 } from "@/types/register/types";
-import Link from "next/link";
+import { Link } from "react-transition-progress/next";
 import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";

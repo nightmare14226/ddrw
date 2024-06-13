@@ -6,13 +6,12 @@ import {
   AuthorizationSchemaType,
   AuthorizationSchema,
 } from "@/types/register/types";
-import Link from "next/link";
+import { Link } from "react-transition-progress/next";
 import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useModeStore } from "./StateProvider";
 import { useRouter } from "next/navigation";
-import PhoneNumberField from "./PhoneNumberField";
 
 export default function AuthorizationForm() {
   const {

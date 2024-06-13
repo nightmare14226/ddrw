@@ -1,7 +1,7 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
 import RocketToggle from "./rocket-toggle";
-import RouteChangeListener from "./RouteChangeListener";
+import { ListToggle } from "./ListToggle";
 
 export function SiteHeader() {
   return (
@@ -23,8 +23,9 @@ export function SiteHeader() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 inset-y-0 right-0 items-center sm:static sm:inset-auto">
-            <nav className="flex">
+            <nav className="flex flex-row gap-5">
               <ThemeToggle />
+              <ListToggle />
             </nav>
           </div>
         </div>

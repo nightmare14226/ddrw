@@ -91,3 +91,22 @@
     top:0px;
 }
 }
+
+:root {
+  --loader-transition-duration: 0.4s;
+}
+
+/* Ensure the loader bar has a transition for opacity */
+.nextjs-toploader-bar {
+  transition: opacity var(--loader-transition-duration) ease-in-out;
+}
+
+/* When the 'loading' class is added to the body, show the loader */
+body.loading .nextjs-toploader-bar {
+  opacity: 1;
+}
+
+/* Default state of the loader (fade-out effect when 'loading' class is removed) */
+.nextjs-toploader-bar {
+  opacity: 0;
+}
