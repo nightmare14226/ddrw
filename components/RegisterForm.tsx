@@ -7,13 +7,13 @@ import {
   RegisterSchemaType,
   RegisterSchema,
 } from "@/types/register/types";
-import { Link } from "react-transition-progress/next";
 import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useModeStore } from "./StateProvider";
 import { useRouter } from "next/navigation";
 import PhoneNumberField from "./PhoneNumberField";
+import { ProgressBarLink } from "./ProgressBar";
 
 export default function RegisterForm() {
   const {
@@ -44,20 +44,20 @@ export default function RegisterForm() {
           <div className="grid grid-flow-row gap-10">
             <div className="flex w-full justify-center items-center xl:pb-8">
               <div onClick={handleClick} className="mr-5">
-                <Link href={"/"}>
+                <ProgressBarLink href={"/"}>
                   <span>
                     <CornerUpLeft />
                   </span>
-                </Link>
+                </ProgressBarLink>
               </div>
               <span className="font-light uppercase font-raleway text-xl text-gray-200 hidden md:block pb-0 pl-0 w-80 mr-5">
                 Регистрация
               </span>
               <div className="block h-[0.01rem] w-full bg-regal-main/100 border-white border-b top-[-4px]"></div>
               <div className="block ml-5" onClick={handleClick}>
-                <Link href="/authorization">
+                <ProgressBarLink href="/authorization">
                   <LogOut />
-                </Link>
+                </ProgressBarLink>
               </div>
             </div>
             <div className="flex flex-row gap-5 w-full">

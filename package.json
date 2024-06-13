@@ -31,7 +31,6 @@
     "react-hook-form": "^7.51.5",
     "react-input-mask": "^3.0.0-alpha.2",
     "react-text-mask": "^5.5.0",
-    "react-transition-progress": "^0.0.4",
     "sass": "^1.77.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

@@ -1,23 +1,20 @@
 "use client";
 
-import { Link } from "react-transition-progress/next";
 import { ArrowRightIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useModeStore } from "../StateProvider";
-import { useProgress } from "react-transition-progress";
+import { ProgressBarLink } from "../ProgressBar";
 type LinkProps = {
   href: string;
 };
 
 const CustomLink: React.FC<LinkProps> = ({ href }) => {
   const changeTurboMode = useModeStore.use.changeTurboMode();
-  const startProgress = useProgress();
   const handleClick = useCallback(() => {
     changeTurboMode();
-    startProgress();
   }, [href]);
   return (
-    <Link
+    <ProgressBarLink
       className="btn btn-out submit-button"
       href={href}
       onClick={handleClick}
@@ -33,7 +30,7 @@ const CustomLink: React.FC<LinkProps> = ({ href }) => {
           />
         </span>
       </p>
-    </Link>
+    </ProgressBarLink>
   );
 };
 

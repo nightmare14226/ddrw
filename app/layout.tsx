@@ -2,13 +2,13 @@ import "@/styles/globals.css";
 
 import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import LightPoints from "@/components/LightPoints";
+import { ProgressBar } from "@/components/ProgressBar";
 import Ribbons from "@/components/Ribbons";
 const inter = Inter({ subsets: ["latin"] });
 export const viewport: Viewport = {
@@ -61,23 +61,24 @@ export default async function RootLayout({
             fontSans.variable
           )}
         >
-          <ProgressBarProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <ProgressBar className="absolute h-1 shadow-lg shadow-sky-500/20 bg-sky-500 top-0 left-0 w-full z-50" />
-              <div className="relative flex min-h-screen flex-col mainCv dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
-                <SiteHeader />
-                {/* <RouteChangeListener /> */}
-                <div className="hidden dark:block absolute inset-0 w-full h-full blur-sm">
-                  <LightPoints />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ProgressBar className="fixed top-0 h-1 bg-sky-500">
+              <div>
+                <div className="relative flex min-h-screen flex-col mainCv dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
+                  <SiteHeader />
+                  {/* <RouteChangeListener /> */}
+                  <div className="hidden dark:block absolute inset-0 w-full h-full blur-sm">
+                    <LightPoints />
+                  </div>
+                  <div className="dark:hidden absolute inset-0 w-full h-full z-0 blur-sm">
+                    <Ribbons />
+                  </div>
+                  {children}
                 </div>
-                <div className="dark:hidden absolute inset-0 w-full h-full z-0 blur-sm">
-                  <Ribbons />
-                </div>
-                {children}
+                <TailwindIndicator />
               </div>
-              <TailwindIndicator />
-            </ThemeProvider>
-          </ProgressBarProvider>
+            </ProgressBar>
+          </ThemeProvider>
         </body>
       </html>
     </>
