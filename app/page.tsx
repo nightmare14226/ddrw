@@ -4,6 +4,7 @@ import "@/styles/tailwind.scss";
 import { DDRW } from "@/components/ddrw";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { ProgressBarLink } from "@/components/ProgressBar";
 export default function IndexPage() {
   return (
     <>

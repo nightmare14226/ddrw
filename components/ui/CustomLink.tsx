@@ -14,12 +14,8 @@ const CustomLink: React.FC<LinkProps> = ({ href }) => {
     changeTurboMode();
   }, []);
   return (
-    <ProgressBarLink
-      className="btn btn-out submit-button"
-      href={href}
-      onClick={handleClick}
-    >
-      <div>
+    <ProgressBarLink className="btn btn-out submit-button" href={href}>
+      <div onClick={handleClick}>
         <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
         <p className="text-white text-left group-hover:text-white">
           Присоединиться
