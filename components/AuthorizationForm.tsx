@@ -37,12 +37,12 @@ export default function AuthorizationForm() {
   useEffect(() => {});
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
-      <div className="min-h-full flex justify-left container relative z-50 pb-0">
+      <div className="min-h-full flex justify-left container relative z-20 pb-0">
         <div className="w-full xl:max-w-xl space-y-8">
           <div className="grid grid-flow-row gap-10">
             <div className="flex w-full justify-center items-center xl:pb-8">
               <div onClick={handleClick} className="mr-5">
-                <ProgressBarLink href={"/register"}>
+                <ProgressBarLink href="/register">
                   <span>
                     <CornerUpLeft />
                   </span>

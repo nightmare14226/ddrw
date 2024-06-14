@@ -77,6 +77,7 @@ export function ProgressBarLink({
 
         startTransition(() => {
           router.push(href.toString());
+          console.log("router.push(href.toString());");
           progress.done();
         });
       }}

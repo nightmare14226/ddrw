@@ -62,7 +62,7 @@ export default async function RootLayout({
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ProgressBar className="fixed top-0 h-1 bg-sky-500">
+            <ProgressBar className="fixed top-0 h-1 bg-sky-500 z-50">
               <div>
                 <div className="relative flex min-h-screen flex-col mainCv dark:bg-black h-full bg-gradient-to-b from-indigo-700/100  via-indigo-500/90 to-indigo-700/100 z-10 backdrop-blur-[0.7rem]">
                   <SiteHeader />
