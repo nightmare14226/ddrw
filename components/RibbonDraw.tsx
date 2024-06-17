@@ -8,7 +8,8 @@ import { DoubleSide, Line } from "three";
 import { Vector3 } from "three";
 import { ReactThreeFiber, extend } from "@react-three/fiber";
 import Triangle from "./Triangle";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
+import { useRibbonStore } from "@/providers/RibbonProvider";
 extend({ Line_: Line });
 declare global {
   namespace JSX {
@@ -59,10 +60,10 @@ const RibbonEdge: React.FC<RibbonEdgeProps> = ({ start, end, keyn }) => {
 };
 const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
   //const canvas2D = useContext(CanvasContext);
-  const ribbons = useModeStore.use.ribbons();
-  const setSection = useModeStore.use.setSection();
-  const deleteRibbon = useModeStore.use.deleteRibbon();
-  const addRibbon = useModeStore.use.addRibbon();
+  const ribbons = useRibbonStore.use.ribbons();
+  const setSection = useRibbonStore.use.setSection();
+  const deleteRibbon = useRibbonStore.use.deleteRibbon();
+  const addRibbon = useRibbonStore.use.addRibbon();
   const [width, setWidth] = useState(canvasRef.current.width);
   const [height, setHeight] = useState(canvasRef.current.height);
   const [vis, setVis] = useState<boolean>(true);
@@ -176,17 +177,17 @@ const RibbonDraw: React.FC<RibbonDrawProps> = ({ canvasRef }) => {
           var mod = Math.sin(1 + (section.phase * Math.PI) / 2) * 0.1;
 
           if (section.dir === "right") {
-            section.point1.add(mod, 0);
-            section.point2.add(mod, 0);
-            section.point3.add(mod, 0);
+            section.point1.x += mod;
+            section.point2.x += mod;
+            section.point3.x += mod;
           } else {
-            section.point1.subtract(mod, 0);
-            section.point2.subtract(mod, 0);
-            section.point3.subtract(mod, 0);
+            section.point1.x -= mod;
+            section.point2.x -= mod;
+            section.point3.x -= mod;
           }
-          section.point1.add(0, mod);
-          section.point2.add(0, mod);
-          section.point3.add(0, mod);
+          section.point1.y += mod;
+          section.point2.y += mod;
+          section.point3.y += mod;
         }
       } else {
         section.delay -= 0.5;

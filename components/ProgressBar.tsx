@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
 
 const ProgressBarContext = createContext<ReturnType<typeof useProgress> | null>(
   null

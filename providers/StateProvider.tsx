@@ -4,29 +4,11 @@ import { create } from "zustand";
 import Point from "@/classes/Point";
 import { produce } from "immer";
 import { createJSONStorage, persist } from "zustand/middleware";
-export type RibbonType = {
-  point1: Point;
-  point2: Point;
-  point3: Point;
-  color: number;
-  delay: number;
-  dir: string;
-  alpha: number;
-  phase: number;
-  id: number;
-};
-type Matrix = RibbonType[][];
-
 interface ModeStore {
   timeCoef: number;
   targetTimeCoef: number;
   hyperMode: boolean;
   turboMode: boolean;
-  ribbons: any[][];
-  addRibbon: (rb: any[]) => void;
-  deleteRibbon: (id: number) => void;
-  setRibbons: (rbs: Matrix) => void;
-  setSection: (row: number, col: number, sec: RibbonType) => void;
   setHyperMode: (hm: boolean) => void;
   setTurboMode: () => void;
   changeHyperMode: () => void;
@@ -43,44 +25,24 @@ const useStore = create<ModeStore>()(
       targetTimeCoef: 1,
       hyperMode: false,
       turboMode: false,
-      ribbons: [],
       setHyperMode: (hm) =>
         set({
           hyperMode: hm,
         }),
       initTurboMode: () =>
-        set({
-          targetTimeCoef: 1,
-        }),
+        set((state) =>
+          state.hyperMode == true
+            ? {
+                targetTimeCoef: 100,
+              }
+            : {
+                targetTimeCoef: 1,
+              }
+        ),
       setTurboMode: () =>
         set({
           turboMode: false,
         }),
-      deleteRibbon: (id: number) =>
-        set((state) => {
-          const temp = [...state.ribbons];
-          temp.splice(id, 1);
-          return {
-            ribbons: temp,
-          };
-        }),
-      setSection: (row, col, sec) =>
-        set((state) => {
-          const newRibbons = state.ribbons.map((r, i) =>
-            i === row ? r.map((val, j) => (j === col ? sec : val)) : r
-          );
-          return { ribbons: newRibbons };
-        }),
-      addRibbon: (rb: RibbonType[]) =>
-        set((state) => ({
-          ribbons: [...state.ribbons, [...rb]],
-        })),
-      setRibbons: (rbs: Matrix) =>
-        set(
-          produce(() => ({
-            ribbons: [...rbs],
-          }))
-        ),
       changeHyperMode: () =>
         set((state) =>
           state.hyperMode == true

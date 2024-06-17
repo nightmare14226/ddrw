@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
 
 export function RocketToggle() {
   const onClick = useModeStore.use.changeHyperMode();

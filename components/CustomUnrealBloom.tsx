@@ -9,7 +9,7 @@ import React, { useEffect, useRef } from "react";
 import { Vector2 } from "three";
 import ZoomBlur from "./blur/ZoomBlur";
 import { useMemo } from "react";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
 import { useState } from "react";
 // Extend the JSX namespace to include UnrealBloomPass
 declare global {
@@ -33,8 +33,6 @@ const CustomUnrealBloom = ({
   const composer = useRef<EffectComposer>();
   const timeCoef = useModeStore.use.timeCoef();
   const targetTimeCoef = useModeStore.use.targetTimeCoef();
-  const turboMode = useModeStore.use.turboMode();
-  const initTurboMode = useModeStore.use.setTurboMode();
   const [tc, setTc] = useState(timeCoef);
   const zoomUniforms = useMemo(
     () => ({

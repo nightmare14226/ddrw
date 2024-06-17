@@ -10,7 +10,7 @@ import {
 import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
 import { useRouter } from "next/navigation";
 import PhoneNumberField from "./PhoneNumberField";
 import { ProgressBarLink } from "./ProgressBar";
@@ -27,23 +27,14 @@ export default function RegisterForm() {
     resolver: zodResolver(RegisterSchema),
     mode: "onChange",
   });
-  const changeTurboMode = useModeStore.use.changeTurboMode();
-  const router = useRouter();
-  const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => {
-    // changeTurboMode();
-    // console.log(data);
-  };
-  const handleClick = useCallback(() => {
-    // changeTurboMode();
-  }, []);
   useEffect(() => {});
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form">
+    <form className="form">
       <div className="min-h-full flex justify-left container relative z-20 pb-0">
         <div className="w-full xl:max-w-xl space-y-8">
           <div className="grid grid-flow-row gap-10">
             <div className="flex w-full justify-center items-center xl:pb-8">
-              <div onClick={handleClick} className="mr-5">
+              <div className="mr-5">
                 <ProgressBarLink href="/">
                   <span>
                     <CornerUpLeft />
@@ -54,7 +45,7 @@ export default function RegisterForm() {
                 Регистрация
               </span>
               <div className="block h-[0.01rem] w-full bg-regal-main/100 border-white border-b top-[-4px]"></div>
-              <div className="block ml-5" onClick={handleClick}>
+              <div className="block ml-5">
                 <ProgressBarLink href="/authorization">
                   <LogOut />
                 </ProgressBarLink>

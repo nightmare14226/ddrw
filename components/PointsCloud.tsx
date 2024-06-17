@@ -7,7 +7,7 @@ import { url } from "inspector";
 import { Vector3 } from "three";
 import { Color } from "three";
 import { MathUtils } from "three";
-import { useModeStore } from "./StateProvider";
+import { useModeStore } from "../providers/StateProvider";
 import { useState } from "react";
 const { randFloat: rnd, randInt, randFloatSpread: rndFS } = MathUtils;
 const vertexShader = `
@@ -47,14 +47,10 @@ const PointsCloud = () => {
   const materialRef = useRef<THREE.ShaderMaterial>();
   const timeCoef = useModeStore.use.timeCoef();
   const targetTimeCoef = useModeStore.use.targetTimeCoef();
-  const turboMode = useModeStore.use.turboMode();
-  const initTurboMode = useModeStore.use.setTurboMode();
   const [tc, setTc] = useState(timeCoef);
   useFrame((state, delta) => {
     materialRef.current.uniforms.uTime.value += delta * 5 * tc;
     setTc(tc + (targetTimeCoef - tc) * 0.02);
-    // else setTc(tc + (targetTimeCoef - tc) * 0.2);
-    // if (turboMode && tc < 1.1 && targetTimeCoef == 1) initTurboMode();
   });
   const texture = useLoader(THREE.TextureLoader, "/assets/images/sprite.png");
   const palette = [
