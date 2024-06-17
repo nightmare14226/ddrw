@@ -29,6 +29,7 @@ interface ModeStore {
   setHyperMode: (hm: boolean) => void;
   changeHyperMode: () => void;
   changeTurboMode: () => void;
+  initTurboMode: () => void;
   setTimeCoef: (tc: number) => void;
   setTargetTimeCoef: (ttc: number) => void;
   moveOneStep: () => void;
@@ -42,6 +43,10 @@ const useStore = create<ModeStore>()((set) => ({
   setHyperMode: (hm) =>
     set({
       hyperMode: hm,
+    }),
+  initTurboMode: () =>
+    set({
+      turboMode: false,
     }),
   deleteRibbon: (id: number) =>
     set((state) => {
@@ -85,11 +90,6 @@ const useStore = create<ModeStore>()((set) => ({
       state.hyperMode == true
         ? {
             turboMode: state.turboMode,
-          }
-        : state.turboMode == true
-        ? {
-            turboMode: false,
-            targetTimeCoef: 1,
           }
         : {
             turboMode: true,

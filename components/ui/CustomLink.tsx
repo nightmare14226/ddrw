@@ -12,7 +12,7 @@ const CustomLink: React.FC<LinkProps> = ({ href }) => {
   const changeTurboMode = useModeStore.use.changeTurboMode();
   const handleClick = useCallback(() => {
     changeTurboMode();
-  }, []);
+  }, [href]);
   return (
     <ProgressBarLink className="btn btn-out submit-button" href={href}>
       <div onClick={handleClick}>
