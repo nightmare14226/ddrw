@@ -52,9 +52,9 @@ const PointsCloud = () => {
   const [tc, setTc] = useState(timeCoef);
   useFrame((state, delta) => {
     materialRef.current.uniforms.uTime.value += delta * 5 * tc;
-    if (!turboMode) setTc(tc + (targetTimeCoef - tc) * 0.02);
-    else setTc(tc + (targetTimeCoef - tc) * 0.2);
-    if (turboMode && tc < 1.1 && targetTimeCoef == 1) initTurboMode();
+    setTc(tc + (targetTimeCoef - tc) * 0.02);
+    // else setTc(tc + (targetTimeCoef - tc) * 0.2);
+    // if (turboMode && tc < 1.1 && targetTimeCoef == 1) initTurboMode();
   });
   const texture = useLoader(THREE.TextureLoader, "/assets/images/sprite.png");
   const palette = [
