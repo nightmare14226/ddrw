@@ -28,11 +28,11 @@ export default function AuthorizationForm() {
   const changeTurboMode = useModeStore.use.changeTurboMode();
   const router = useRouter();
   const onSubmit: SubmitHandler<AuthorizationSchemaType> = (data) => {
-    changeTurboMode();
+    // changeTurboMode();
     console.log(data);
   };
   const handleClick = useCallback(() => {
-    changeTurboMode();
+    // changeTurboMode();
   }, []);
   useEffect(() => {});
   return (

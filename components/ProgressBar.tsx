@@ -18,6 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useModeStore } from "./StateProvider";
 
 const ProgressBarContext = createContext<ReturnType<typeof useProgress> | null>(
   null
@@ -42,7 +43,6 @@ export function ProgressBar({
 }) {
   let progress = useProgress();
   let width = useMotionTemplate`${progress.value}%`;
-
   return (
     <ProgressBarContext.Provider value={progress}>
       <AnimatePresence onExitComplete={progress.reset}>
@@ -67,17 +67,17 @@ export function ProgressBarLink({
 }: ComponentProps<typeof Link>) {
   let progress = useProgressBar();
   let router = useRouter();
-
+  const setTurboMode = useModeStore.use.changeTurboMode();
   return (
     <Link
       href={href}
       onClick={(e) => {
         e.preventDefault();
         progress.start();
-
+        setTurboMode();
+        console.log("start turbo");
         startTransition(() => {
           router.push(href.toString());
-          console.log("router.push(href.toString());");
           progress.done();
         });
       }}
@@ -100,6 +100,7 @@ export function useProgress() {
     restDelta: 0.1,
   });
 
+  const initTurboMode = useModeStore.use.initTurboMode();
   useInterval(
     () => {
       // If we start progress but the bar is currently complete, reset it first.
@@ -133,6 +134,10 @@ export function useProgress() {
     return value.on("change", (latest) => {
       if (latest === 100) {
         setState("complete");
+      }
+      if (latest >= 50) {
+        initTurboMode();
+        console.log("init turbo");
       }
     });
   }, [value, state]);

@@ -30,11 +30,11 @@ export default function RegisterForm() {
   const changeTurboMode = useModeStore.use.changeTurboMode();
   const router = useRouter();
   const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => {
-    changeTurboMode();
-    console.log(data);
+    // changeTurboMode();
+    // console.log(data);
   };
   const handleClick = useCallback(() => {
-    changeTurboMode();
+    // changeTurboMode();
   }, []);
   useEffect(() => {});
   return (

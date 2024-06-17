@@ -33,7 +33,7 @@ function MeshComponent() {
 
 export function DDRW() {
   return (
-    <div className="w-[300px] h-[300px] lg:w-[450px] lg:h-[450px] mr-0 ml-auto hidden sm:block">
+    <div className="w-[300px] h-[300px] lg:w-[450px] lg:h-[450px] mr-0 ml-auto block">
       <Canvas className="z-10 w-full h-full" camera={{ manual: true }}>
         <PerspectiveCamera
           fov={50}

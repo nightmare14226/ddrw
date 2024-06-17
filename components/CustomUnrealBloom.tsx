@@ -33,10 +33,8 @@ const CustomUnrealBloom = ({
   const composer = useRef<EffectComposer>();
   const timeCoef = useModeStore.use.timeCoef();
   const targetTimeCoef = useModeStore.use.targetTimeCoef();
-  const setTargetTimeCoef = useModeStore.use.setTargetTimeCoef();
-  const changeTurboMode = useModeStore.use.changeTurboMode();
   const turboMode = useModeStore.use.turboMode();
-  const initTurboMode = useModeStore.use.initTurboMode();
+  const initTurboMode = useModeStore.use.setTurboMode();
   const [tc, setTc] = useState(timeCoef);
   const zoomUniforms = useMemo(
     () => ({
@@ -87,10 +85,7 @@ const CustomUnrealBloom = ({
         };
     }
     if (!turboMode) setTc(tc + (targetTimeCoef - tc) * 0.02);
-    else setTc(tc + (targetTimeCoef - tc) * 0.15);
-    if (turboMode && tc > 19.9) {
-      setTargetTimeCoef(1);
-    }
+    else setTc(tc + (targetTimeCoef - tc) * 0.2);
     if (turboMode && tc < 2 && targetTimeCoef == 1) initTurboMode();
     if (composer.current) composer.current.render();
   }, 1);

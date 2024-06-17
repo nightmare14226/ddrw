@@ -27,6 +27,7 @@ interface ModeStore {
   setRibbons: (rbs: Matrix) => void;
   setSection: (row: number, col: number, sec: RibbonType) => void;
   setHyperMode: (hm: boolean) => void;
+  setTurboMode: () => void;
   changeHyperMode: () => void;
   changeTurboMode: () => void;
   initTurboMode: () => void;
@@ -45,6 +46,10 @@ const useStore = create<ModeStore>()((set) => ({
       hyperMode: hm,
     }),
   initTurboMode: () =>
+    set({
+      targetTimeCoef: 1,
+    }),
+  setTurboMode: () =>
     set({
       turboMode: false,
     }),
@@ -93,7 +98,7 @@ const useStore = create<ModeStore>()((set) => ({
           }
         : {
             turboMode: true,
-            targetTimeCoef: 50,
+            targetTimeCoef: 100,
           }
     );
   },

@@ -12,7 +12,7 @@ const RouteChangeListener = () => {
   useEffect(() => {
     const handleRouteChange = (url) => {
       // console.log("App is changing to:", url);
-      changeTurboMode();
+      // changeTurboMode();
       // Additional logic or function calls can be placed here to handle the change
     };
 
