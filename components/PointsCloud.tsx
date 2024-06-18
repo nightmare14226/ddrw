@@ -46,11 +46,14 @@ const PointsCloud = () => {
   const ref = useRef<THREE.Points>();
   const materialRef = useRef<THREE.ShaderMaterial>();
   const timeCoef = useModeStore.use.timeCoef();
+  const setTimeCoef = useModeStore.use.setTimeCoef();
   const targetTimeCoef = useModeStore.use.targetTimeCoef();
+  const turboMode = useModeStore.use.turboMode();
+  const setTurboMode = useModeStore.use.setTurboMode();
   const [tc, setTc] = useState(timeCoef);
   useFrame((state, delta) => {
-    materialRef.current.uniforms.uTime.value += delta * 5 * tc;
-    setTc(tc + (targetTimeCoef - tc) * 0.02);
+    materialRef.current.uniforms.uTime.value += delta * 5 * timeCoef;
+    setTimeCoef(timeCoef + (targetTimeCoef - timeCoef) * 0.02);
   });
   const texture = useLoader(THREE.TextureLoader, "/assets/images/sprite.png");
   const palette = [

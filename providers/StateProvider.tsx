@@ -63,7 +63,7 @@ const useStore = create<ModeStore>()(
               }
             : {
                 turboMode: true,
-                targetTimeCoef: 80,
+                targetTimeCoef: 50,
               }
         );
       },

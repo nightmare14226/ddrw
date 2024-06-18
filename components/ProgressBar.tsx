@@ -135,7 +135,7 @@ export function useProgress() {
       if (latest === 100) {
         setState("complete");
       }
-      if (latest >= 50) {
+      if (latest >= 80) {
         initTurboMode();
         console.log("init turbo");
       }
